@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.item.mapper.ItemMainMapper" >
+  <resultMap id="BaseResultMap" type="com.item.entity.ItemMain" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="DOC_SUBJECT" property="docSubject" jdbcType="VARCHAR" />
+    <result column="DOC_STATUS" property="docStatus" jdbcType="VARCHAR" />
+    <result column="DOC_CREATE_TIME" property="docCreateTime" jdbcType="TIMESTAMP" />
+    <result column="DOC_CREATOR_ID" property="docCreatorId" jdbcType="VARCHAR" />
+    <result column="DOC_CREATE_NAME" property="docCreateName" jdbcType="VARCHAR" />
+    <result column="DOC_ALTER_TIME" property="docAlterTime" jdbcType="TIMESTAMP" />
+    <result column="DOC_ALTER_ID" property="docAlterId" jdbcType="VARCHAR" />
+    <result column="DOC_REMARK" property="docRemark" jdbcType="VARCHAR" />
+    <result column="DOC_ALTER_NAME" property="docAlterName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, DOC_SUBJECT, DOC_STATUS, DOC_CREATE_TIME, DOC_CREATOR_ID, DOC_CREATE_NAME, DOC_ALTER_TIME, 
+    DOC_ALTER_ID, DOC_REMARK, DOC_ALTER_NAME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.item.entity.ItemMainExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ITEM_MAIN
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ITEM_MAIN
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ITEM_MAIN
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.item.entity.ItemMainExample" >
+    delete from ITEM_MAIN
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.item.entity.ItemMain" >
+    insert into ITEM_MAIN (ID, DOC_SUBJECT, DOC_STATUS, 
+      DOC_CREATE_TIME, DOC_CREATOR_ID, DOC_CREATE_NAME, 
+      DOC_ALTER_TIME, DOC_ALTER_ID, DOC_REMARK, 
+      DOC_ALTER_NAME)
+    values (#{id,jdbcType=VARCHAR}, #{docSubject,jdbcType=VARCHAR}, #{docStatus,jdbcType=VARCHAR}, 
+      #{docCreateTime,jdbcType=TIMESTAMP}, #{docCreatorId,jdbcType=VARCHAR}, #{docCreateName,jdbcType=VARCHAR}, 
+      #{docAlterTime,jdbcType=TIMESTAMP}, #{docAlterId,jdbcType=VARCHAR}, #{docRemark,jdbcType=VARCHAR}, 
+      #{docAlterName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.item.entity.ItemMain" >
+    insert into ITEM_MAIN
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="docSubject != null" >
+        DOC_SUBJECT,
+      </if>
+      <if test="docStatus != null" >
+        DOC_STATUS,
+      </if>
+      <if test="docCreateTime != null" >
+        DOC_CREATE_TIME,
+      </if>
+      <if test="docCreatorId != null" >
+        DOC_CREATOR_ID,
+      </if>
+      <if test="docCreateName != null" >
+        DOC_CREATE_NAME,
+      </if>
+      <if test="docAlterTime != null" >
+        DOC_ALTER_TIME,
+      </if>
+      <if test="docAlterId != null" >
+        DOC_ALTER_ID,
+      </if>
+      <if test="docRemark != null" >
+        DOC_REMARK,
+      </if>
+      <if test="docAlterName != null" >
+        DOC_ALTER_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="docSubject != null" >
+        #{docSubject,jdbcType=VARCHAR},
+      </if>
+      <if test="docStatus != null" >
+        #{docStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="docCreateTime != null" >
+        #{docCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="docCreatorId != null" >
+        #{docCreatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="docCreateName != null" >
+        #{docCreateName,jdbcType=VARCHAR},
+      </if>
+      <if test="docAlterTime != null" >
+        #{docAlterTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="docAlterId != null" >
+        #{docAlterId,jdbcType=VARCHAR},
+      </if>
+      <if test="docRemark != null" >
+        #{docRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="docAlterName != null" >
+        #{docAlterName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.item.entity.ItemMainExample" resultType="java.lang.Integer" >
+    select count(*) from ITEM_MAIN
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update ITEM_MAIN
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.docSubject != null" >
+        DOC_SUBJECT = #{record.docSubject,jdbcType=VARCHAR},
+      </if>
+      <if test="record.docStatus != null" >
+        DOC_STATUS = #{record.docStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.docCreateTime != null" >
+        DOC_CREATE_TIME = #{record.docCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.docCreatorId != null" >
+        DOC_CREATOR_ID = #{record.docCreatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.docCreateName != null" >
+        DOC_CREATE_NAME = #{record.docCreateName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.docAlterTime != null" >
+        DOC_ALTER_TIME = #{record.docAlterTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.docAlterId != null" >
+        DOC_ALTER_ID = #{record.docAlterId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.docRemark != null" >
+        DOC_REMARK = #{record.docRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.docAlterName != null" >
+        DOC_ALTER_NAME = #{record.docAlterName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update ITEM_MAIN
+    set ID = #{record.id,jdbcType=VARCHAR},
+      DOC_SUBJECT = #{record.docSubject,jdbcType=VARCHAR},
+      DOC_STATUS = #{record.docStatus,jdbcType=VARCHAR},
+      DOC_CREATE_TIME = #{record.docCreateTime,jdbcType=TIMESTAMP},
+      DOC_CREATOR_ID = #{record.docCreatorId,jdbcType=VARCHAR},
+      DOC_CREATE_NAME = #{record.docCreateName,jdbcType=VARCHAR},
+      DOC_ALTER_TIME = #{record.docAlterTime,jdbcType=TIMESTAMP},
+      DOC_ALTER_ID = #{record.docAlterId,jdbcType=VARCHAR},
+      DOC_REMARK = #{record.docRemark,jdbcType=VARCHAR},
+      DOC_ALTER_NAME = #{record.docAlterName,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.item.entity.ItemMain" >
+    update ITEM_MAIN
+    <set >
+      <if test="docSubject != null" >
+        DOC_SUBJECT = #{docSubject,jdbcType=VARCHAR},
+      </if>
+      <if test="docStatus != null" >
+        DOC_STATUS = #{docStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="docCreateTime != null" >
+        DOC_CREATE_TIME = #{docCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="docCreatorId != null" >
+        DOC_CREATOR_ID = #{docCreatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="docCreateName != null" >
+        DOC_CREATE_NAME = #{docCreateName,jdbcType=VARCHAR},
+      </if>
+      <if test="docAlterTime != null" >
+        DOC_ALTER_TIME = #{docAlterTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="docAlterId != null" >
+        DOC_ALTER_ID = #{docAlterId,jdbcType=VARCHAR},
+      </if>
+      <if test="docRemark != null" >
+        DOC_REMARK = #{docRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="docAlterName != null" >
+        DOC_ALTER_NAME = #{docAlterName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.item.entity.ItemMain" >
+    update ITEM_MAIN
+    set DOC_SUBJECT = #{docSubject,jdbcType=VARCHAR},
+      DOC_STATUS = #{docStatus,jdbcType=VARCHAR},
+      DOC_CREATE_TIME = #{docCreateTime,jdbcType=TIMESTAMP},
+      DOC_CREATOR_ID = #{docCreatorId,jdbcType=VARCHAR},
+      DOC_CREATE_NAME = #{docCreateName,jdbcType=VARCHAR},
+      DOC_ALTER_TIME = #{docAlterTime,jdbcType=TIMESTAMP},
+      DOC_ALTER_ID = #{docAlterId,jdbcType=VARCHAR},
+      DOC_REMARK = #{docRemark,jdbcType=VARCHAR},
+      DOC_ALTER_NAME = #{docAlterName,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
