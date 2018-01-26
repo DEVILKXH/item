@@ -10,12 +10,14 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.item.base.entity.Example;
 import com.item.entity.Users;
-import com.item.entity.UsersExample;
 import com.item.inner.dto.AjaxResult;
 import com.item.service.UsersService;
 import com.item.util.UserUtil;
@@ -32,7 +34,17 @@ public class LoginController{
 	private UserUtil userUtil;
 	
 	@RequestMapping("/index.do")
-	public String index(HttpSession session){
+	public String index(HttpSession session,Model model){
+		Users user = userUtil.getUser(session);
+		if(null == user){
+			return "login";
+		}
+		model.addAttribute("user", user);
+		return "index";
+	}
+	
+	@RequestMapping("/login.do")
+	public String login(HttpSession session){
 		Users user = userUtil.getUser(session);
 		if(null == user){
 			return "login";
@@ -40,22 +52,17 @@ public class LoginController{
 		return "index";
 	}
 	
-	@RequestMapping("/login.do")
-	public String login(){
-		return "login";
-	}
-	
 	@RequestMapping(value = "/doLogin.do",method={RequestMethod.POST})
 	@ResponseBody
-	public AjaxResult<Users> doLogin(Users user,HttpServletRequest request,HttpSession session){
+	public AjaxResult<Users> doLogin(@RequestBody Users user,HttpServletRequest request,HttpSession session){
 		AjaxResult<Users> result = new AjaxResult<Users>();
 		if(StringUtil.isNull(user.getUserName()) || StringUtil.isNull(user.getPassWord())){
 			result.setStatus("404");
 			result.setMessage("帐号或密码不能为空");
 			return result;
 		}
-		UsersExample example = new UsersExample();
-		example.createCriteria().andUserNameEqualTo(user.getUserName());
+		Example example = new Example();
+		example.createCriteria().andEqualTo("USER_NAME", user.getUserName());
 		List<Users> users = userService.selectByExample(example);
 		if(null == users || users.size() == 0){
 			result.setStatus("404");
@@ -83,16 +90,22 @@ public class LoginController{
 	}
 	
 	@RequestMapping(value = "/register.do")
+	public String register(HttpSession session){
+		session.invalidate();
+		return "register";
+	}
+	
+	@RequestMapping(value = "/doRegister.do",method = {RequestMethod.POST})
 	@ResponseBody
-	public AjaxResult<Users> register(Users user,String password2,HttpServletRequest request,HttpSession session){
+	public AjaxResult<Users> doRegister(@RequestBody Users user,HttpServletRequest request,HttpSession session){
 		AjaxResult<Users> result = new AjaxResult<Users>();
-		if(StringUtil.isNull(user.getUserName()) || StringUtil.isNull(user.getPassWord()) || StringUtil.isNull(password2)){
+		if(StringUtil.isNull(user.getUserName()) || StringUtil.isNull(user.getPassWord()) || StringUtil.isNull(user.getPassword2())){
 			result.setStatus("404");
 			result.setMessage("帐号或密码不能为空");
 			return result;
 		}
-		UsersExample example = new UsersExample();
-		example.createCriteria().andUserNameEqualTo(user.getUserName());
+		Example example = new Example();
+		example.createCriteria().andEqualTo("USER_NAME", user.getUserName());
 		List<Users> users = userService.selectByExample(example);
 		if(null != users && users.size() > 0){
 			result.setStatus("500");
@@ -104,12 +117,12 @@ public class LoginController{
 			result.setMessage("密码长度不小于6为");
 			return result;
 		}
-		if(!user.getPassWord().equals(password2)){
+		if(!user.getPassWord().equals(user.getPassword2())){
 			result.setStatus("500");
 			result.setMessage("两次密码不一样");
 			return result;
 		}
-		example.createCriteria().andUserNameEqualTo(user.getUserName());
+		example.createCriteria().andEqualTo("USER_NAME", user.getUserName());
 		List<Users> list = userService.selectByExample(example);
 		if(null != list && list.size() > 0){
 			result.setStatus("500");

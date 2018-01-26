@@ -2,28 +2,28 @@ package com.item.entity;
 
 import java.util.Date;
 
-public class ItemStorage {
-    private String id;
+import com.item.base.entity.BaseEntity;
+import com.item.base.entity.annotation.Example;
 
+public class ItemStorage extends BaseEntity{
+
+	@Example
     private String itemName;
 
+	@Example
     private Integer itemStorage;
 
+	@Example
     private String itemStaus;
 
+	@Example
     private Date docCreateTime;
 
+	@Example
     private String docCreateId;
 
+	@Example
     private String docCreateName;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
-    }
 
     public String getItemName() {
         return itemName;

@@ -2,28 +2,32 @@ package com.item.entity;
 
 import java.util.Date;
 
-public class Users {
-    private String id;
+import com.item.base.entity.BaseEntity;
+import com.item.base.entity.annotation.Example;
 
+public class Users extends BaseEntity{
+
+	@Example
     private String userName;
 
+	@Example
     private String passWord;
 
+	@Example
     private String nickName;
 
+	@Example
     private String userType;
 
+	@Example
     private String userStatus;
 
+	@Example
     private Date docCreateTime;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
-    }
+	
+	private String password2;
+	
+	private String password3;
 
     public String getUserName() {
         return userName;
@@ -72,9 +76,21 @@ public class Users {
     public void setDocCreateTime(Date docCreateTime) {
         this.docCreateTime = docCreateTime;
     }
+
+	public String getPassword2() {
+		return password2;
+	}
+
+	public void setPassword2(String password2) {
+		this.password2 = password2;
+	}
+
+	public String getPassword3() {
+		return password3;
+	}
+
+	public void setPassword3(String password3) {
+		this.password3 = password3;
+	}
     
-    public UsersExample getExample(){
-    	UsersExample example = new UsersExample();
-    	return example;
-    }
 }

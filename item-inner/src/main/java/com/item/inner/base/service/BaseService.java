@@ -2,12 +2,14 @@ package com.item.inner.base.service;
 
 import java.util.List;
 
+import com.item.base.entity.Example;
 
-public interface BaseService<T,E> {
+
+public interface BaseService<E> {
 	
-	int countByExample(T example);
+	int countByExample(Example example);
 
-    int deleteByExample(T example);
+    int deleteByExample(Example example);
 
     int deleteByPrimaryKey(String uuid);
 
@@ -15,13 +17,13 @@ public interface BaseService<T,E> {
 
     int insertSelective(E record);
 
-    List<E> selectByExample(T example);
+    List<E> selectByExample(Example example);
 
     E selectByPrimaryKey(String uuid);
 
-    int updateByExampleSelective(E record, T example);
+    int updateByExampleSelective(E record, Example example);
 
-    int updateByExample(E record, T example);
+    int updateByExample(E record, Example example);
 
     int updateByPrimaryKeySelective(E record);
 

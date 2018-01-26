@@ -4,22 +4,23 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.item.base.entity.Example;
 import com.item.inner.base.mapper.BaseMapper;
 import com.item.inner.base.service.BaseService;
 
 
-public class BaseServiceImpl<T, E,K extends BaseMapper<T,E>> implements BaseService<T, E>{
+public class BaseServiceImpl<E,K extends BaseMapper<E>> implements BaseService<E>{
 
 	@Autowired
 	private K mapper;
 	
 	@Override
-	public int countByExample(T example) {
+	public int countByExample(Example example) {
 		return mapper.countByExample(example);
 	}
 
 	@Override
-	public int deleteByExample(T example) {
+	public int deleteByExample(Example example) {
 		return mapper.deleteByExample(example);
 	}
 
@@ -39,7 +40,7 @@ public class BaseServiceImpl<T, E,K extends BaseMapper<T,E>> implements BaseServ
 	}
 
 	@Override
-	public List<E> selectByExample(T example) {
+	public List<E> selectByExample(Example example) {
 		return mapper.selectByExample(example);
 	}
 
@@ -49,12 +50,12 @@ public class BaseServiceImpl<T, E,K extends BaseMapper<T,E>> implements BaseServ
 	}
 
 	@Override
-	public int updateByExampleSelective(E record, T example) {
+	public int updateByExampleSelective(E record, Example example) {
 		return mapper.updateByExampleSelective(record, example);
 	}
 
 	@Override
-	public int updateByExample(E record, T example) {
+	public int updateByExample(E record, Example example) {
 		return mapper.updateByExample(record, example);
 	}
 

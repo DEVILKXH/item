@@ -2,23 +2,35 @@ package com.item.entity;
 
 import java.util.Date;
 
-public class SysLoginLog {
-    private String logId;
+import com.item.base.entity.annotation.Example;
 
+public class SysLoginLog {
+
+	@Example
+	private String logId;
+
+	@Example
     private String sessionId;
 
+	@Example
     private String userId;
 
+	@Example
     private String userName;
 
+	@Example
     private String ip;
 
+	@Example
     private Date lastestLoginTime;
 
+	@Example
     private Date lastestLogoutTime;
 
+	@Example
     private String state;
 
+	@Example
     private Date createTime;
 
     public String getLogId() {

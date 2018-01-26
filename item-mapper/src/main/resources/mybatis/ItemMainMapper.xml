@@ -75,7 +75,7 @@
     ID, DOC_SUBJECT, DOC_STATUS, DOC_CREATE_TIME, DOC_CREATOR_ID, DOC_CREATE_NAME, DOC_ALTER_TIME, 
     DOC_ALTER_ID, DOC_REMARK, DOC_ALTER_NAME
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.item.entity.ItemMainExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.item.base.entity.Example" >
     select
     <if test="distinct" >
       distinct
@@ -99,7 +99,7 @@
     delete from ITEM_MAIN
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.item.entity.ItemMainExample" >
+  <delete id="deleteByExample" parameterType="com.item.base.entity.Example" >
     delete from ITEM_MAIN
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -182,7 +182,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.item.entity.ItemMainExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="com.item.base.entity.Example" resultType="java.lang.Integer" >
     select count(*) from ITEM_MAIN
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />

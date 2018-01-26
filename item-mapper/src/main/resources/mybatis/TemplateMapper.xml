@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.item.mapper.UsersMapper" >
-  <resultMap id="BaseResultMap" type="com.item.entity.Users" >
+<mapper namespace="com.item.mapper.TemplateMapper" >
+  <resultMap id="BaseResultMap" type="com.item.entity.Template" >
     <id column="ID" property="id" jdbcType="VARCHAR" />
-    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
-    <result column="PASS_WORD" property="passWord" jdbcType="VARCHAR" />
-    <result column="NICK_NAME" property="nickName" jdbcType="VARCHAR" />
-    <result column="USER_TYPE" property="userType" jdbcType="VARCHAR" />
-    <result column="USER_STATUS" property="userStatus" jdbcType="VARCHAR" />
-    <result column="DOC_CREATE_TIME" property="docCreateTime" jdbcType="TIMESTAMP" />
+    <result column="TEMPLATE_NAME" property="templateName" jdbcType="VARCHAR" />
+    <result column="DOC_CREATOR_ID" property="docCreatorId" jdbcType="VARCHAR" />
+    <result column="DOC_CREATOR_NAME" property="docCreatorName" jdbcType="VARCHAR" />
+    <result column="DOC_CREATIME" property="docCreatime" jdbcType="TIMESTAMP" />
+    <result column="TEMPLATE_INFO" property="templateInfo" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -69,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, USER_NAME, PASS_WORD, NICK_NAME, USER_TYPE, USER_STATUS, DOC_CREATE_TIME
+    ID, TEMPLATE_NAME, DOC_CREATOR_ID, DOC_CREATOR_NAME, DOC_CREATIME, TEMPLATE_INFO
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.item.base.entity.Example" >
     select
@@ -77,7 +76,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from USERS
+    from TEMPLATE
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -88,105 +87,96 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from USERS
+    from TEMPLATE
     where ID = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from USERS
+    delete from TEMPLATE
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.item.base.entity.Example" >
-    delete from USERS
+    delete from TEMPLATE
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.item.entity.Users" >
-    insert into USERS (ID, USER_NAME, PASS_WORD, 
-      NICK_NAME, USER_TYPE, USER_STATUS, 
-      DOC_CREATE_TIME)
-    values (#{id,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{passWord,jdbcType=VARCHAR}, 
-      #{nickName,jdbcType=VARCHAR}, #{userType,jdbcType=VARCHAR}, #{userStatus,jdbcType=VARCHAR}, 
-      #{docCreateTime,jdbcType=TIMESTAMP})
+  <insert id="insert" parameterType="com.item.entity.Template" >
+    insert into TEMPLATE (ID, TEMPLATE_NAME, DOC_CREATOR_ID, 
+      DOC_CREATOR_NAME, DOC_CREATIME, TEMPLATE_INFO
+      )
+    values (#{id,jdbcType=VARCHAR}, #{templateName,jdbcType=VARCHAR}, #{docCreatorId,jdbcType=VARCHAR}, 
+      #{docCreatorName,jdbcType=VARCHAR}, #{docCreatime,jdbcType=TIMESTAMP}, #{templateInfo,jdbcType=VARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.item.entity.Users" >
-    insert into USERS
+  <insert id="insertSelective" parameterType="com.item.entity.Template" >
+    insert into TEMPLATE
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         ID,
       </if>
-      <if test="userName != null" >
-        USER_NAME,
+      <if test="templateName != null" >
+        TEMPLATE_NAME,
       </if>
-      <if test="passWord != null" >
-        PASS_WORD,
+      <if test="docCreatorId != null" >
+        DOC_CREATOR_ID,
       </if>
-      <if test="nickName != null" >
-        NICK_NAME,
+      <if test="docCreatorName != null" >
+        DOC_CREATOR_NAME,
       </if>
-      <if test="userType != null" >
-        USER_TYPE,
+      <if test="docCreatime != null" >
+        DOC_CREATIME,
       </if>
-      <if test="userStatus != null" >
-        USER_STATUS,
-      </if>
-      <if test="docCreateTime != null" >
-        DOC_CREATE_TIME,
+      <if test="templateInfo != null" >
+        TEMPLATE_INFO,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=VARCHAR},
       </if>
-      <if test="userName != null" >
-        #{userName,jdbcType=VARCHAR},
+      <if test="templateName != null" >
+        #{templateName,jdbcType=VARCHAR},
       </if>
-      <if test="passWord != null" >
-        #{passWord,jdbcType=VARCHAR},
+      <if test="docCreatorId != null" >
+        #{docCreatorId,jdbcType=VARCHAR},
       </if>
-      <if test="nickName != null" >
-        #{nickName,jdbcType=VARCHAR},
+      <if test="docCreatorName != null" >
+        #{docCreatorName,jdbcType=VARCHAR},
       </if>
-      <if test="userType != null" >
-        #{userType,jdbcType=VARCHAR},
+      <if test="docCreatime != null" >
+        #{docCreatime,jdbcType=TIMESTAMP},
       </if>
-      <if test="userStatus != null" >
-        #{userStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="docCreateTime != null" >
-        #{docCreateTime,jdbcType=TIMESTAMP},
+      <if test="templateInfo != null" >
+        #{templateInfo,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.item.base.entity.Example" resultType="java.lang.Integer" >
-    select count(*) from USERS
+    select count(*) from TEMPLATE
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update USERS
+    update TEMPLATE
     <set >
       <if test="record.id != null" >
         ID = #{record.id,jdbcType=VARCHAR},
       </if>
-      <if test="record.userName != null" >
-        USER_NAME = #{record.userName,jdbcType=VARCHAR},
+      <if test="record.templateName != null" >
+        TEMPLATE_NAME = #{record.templateName,jdbcType=VARCHAR},
       </if>
-      <if test="record.passWord != null" >
-        PASS_WORD = #{record.passWord,jdbcType=VARCHAR},
+      <if test="record.docCreatorId != null" >
+        DOC_CREATOR_ID = #{record.docCreatorId,jdbcType=VARCHAR},
       </if>
-      <if test="record.nickName != null" >
-        NICK_NAME = #{record.nickName,jdbcType=VARCHAR},
+      <if test="record.docCreatorName != null" >
+        DOC_CREATOR_NAME = #{record.docCreatorName,jdbcType=VARCHAR},
       </if>
-      <if test="record.userType != null" >
-        USER_TYPE = #{record.userType,jdbcType=VARCHAR},
+      <if test="record.docCreatime != null" >
+        DOC_CREATIME = #{record.docCreatime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.userStatus != null" >
-        USER_STATUS = #{record.userStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="record.docCreateTime != null" >
-        DOC_CREATE_TIME = #{record.docCreateTime,jdbcType=TIMESTAMP},
+      <if test="record.templateInfo != null" >
+        TEMPLATE_INFO = #{record.templateInfo,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -194,50 +184,45 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update USERS
+    update TEMPLATE
     set ID = #{record.id,jdbcType=VARCHAR},
-      USER_NAME = #{record.userName,jdbcType=VARCHAR},
-      PASS_WORD = #{record.passWord,jdbcType=VARCHAR},
-      NICK_NAME = #{record.nickName,jdbcType=VARCHAR},
-      USER_TYPE = #{record.userType,jdbcType=VARCHAR},
-      USER_STATUS = #{record.userStatus,jdbcType=VARCHAR},
-      DOC_CREATE_TIME = #{record.docCreateTime,jdbcType=TIMESTAMP}
+      TEMPLATE_NAME = #{record.templateName,jdbcType=VARCHAR},
+      DOC_CREATOR_ID = #{record.docCreatorId,jdbcType=VARCHAR},
+      DOC_CREATOR_NAME = #{record.docCreatorName,jdbcType=VARCHAR},
+      DOC_CREATIME = #{record.docCreatime,jdbcType=TIMESTAMP},
+      TEMPLATE_INFO = #{record.templateInfo,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.item.entity.Users" >
-    update USERS
+  <update id="updateByPrimaryKeySelective" parameterType="com.item.entity.Template" >
+    update TEMPLATE
     <set >
-      <if test="userName != null" >
-        USER_NAME = #{userName,jdbcType=VARCHAR},
+      <if test="templateName != null" >
+        TEMPLATE_NAME = #{templateName,jdbcType=VARCHAR},
       </if>
-      <if test="passWord != null" >
-        PASS_WORD = #{passWord,jdbcType=VARCHAR},
+      <if test="docCreatorId != null" >
+        DOC_CREATOR_ID = #{docCreatorId,jdbcType=VARCHAR},
       </if>
-      <if test="nickName != null" >
-        NICK_NAME = #{nickName,jdbcType=VARCHAR},
+      <if test="docCreatorName != null" >
+        DOC_CREATOR_NAME = #{docCreatorName,jdbcType=VARCHAR},
       </if>
-      <if test="userType != null" >
-        USER_TYPE = #{userType,jdbcType=VARCHAR},
+      <if test="docCreatime != null" >
+        DOC_CREATIME = #{docCreatime,jdbcType=TIMESTAMP},
       </if>
-      <if test="userStatus != null" >
-        USER_STATUS = #{userStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="docCreateTime != null" >
-        DOC_CREATE_TIME = #{docCreateTime,jdbcType=TIMESTAMP},
+      <if test="templateInfo != null" >
+        TEMPLATE_INFO = #{templateInfo,jdbcType=VARCHAR},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.item.entity.Users" >
-    update USERS
-    set USER_NAME = #{userName,jdbcType=VARCHAR},
-      PASS_WORD = #{passWord,jdbcType=VARCHAR},
-      NICK_NAME = #{nickName,jdbcType=VARCHAR},
-      USER_TYPE = #{userType,jdbcType=VARCHAR},
-      USER_STATUS = #{userStatus,jdbcType=VARCHAR},
-      DOC_CREATE_TIME = #{docCreateTime,jdbcType=TIMESTAMP}
+  <update id="updateByPrimaryKey" parameterType="com.item.entity.Template" >
+    update TEMPLATE
+    set TEMPLATE_NAME = #{templateName,jdbcType=VARCHAR},
+      DOC_CREATOR_ID = #{docCreatorId,jdbcType=VARCHAR},
+      DOC_CREATOR_NAME = #{docCreatorName,jdbcType=VARCHAR},
+      DOC_CREATIME = #{docCreatime,jdbcType=TIMESTAMP},
+      TEMPLATE_INFO = #{templateInfo,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

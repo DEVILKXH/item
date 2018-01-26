@@ -1,17 +1,20 @@
 package com.item.base.entity;
 
+import com.item.base.entity.annotation.Example;
+
 public class BaseEntity {
 
-	private String uuid;
+	@Example
+	private String id;
 
 	private String name;
 	
-	public String getUuid() {
-		return uuid;
+	public String getId() {
+		return id;
 	}
 
-	public void setUuid(String uuid) {
-		 this.uuid = uuid == null ? null : uuid.trim();
+	public void setId(String id) {
+		 this.id = id == null ? null : id.trim();
 	}
 
 	public String getName() {

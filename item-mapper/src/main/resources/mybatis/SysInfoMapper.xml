@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.item.mapper.ItemDetailMapper" >
-  <resultMap id="BaseResultMap" type="com.item.entity.ItemDetail" >
+<mapper namespace="com.item.mapper.SysInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.item.entity.SysInfo" >
     <id column="ID" property="id" jdbcType="VARCHAR" />
-    <result column="ITEM_NAME" property="itemName" jdbcType="VARCHAR" />
-    <result column="ITEM_NUMBER" property="itemNumber" jdbcType="INTEGER" />
-    <result column="ITEM_STORAGE" property="itemStorage" jdbcType="VARCHAR" />
-    <result column="DOC_CREATE_TIME" property="docCreateTime" jdbcType="TIMESTAMP" />
-    <result column="DOC_MAIN_ID" property="docMainId" jdbcType="VARCHAR" />
+    <result column="DOC_SUBJECT" property="docSubject" jdbcType="VARCHAR" />
+    <result column="DOC_CREATIME" property="docCreatime" jdbcType="TIMESTAMP" />
+    <result column="READ_FLAG" property="readFlag" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -68,15 +66,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, ITEM_NAME, ITEM_NUMBER, ITEM_STORAGE, DOC_CREATE_TIME, DOC_MAIN_ID
+    ID, DOC_SUBJECT, DOC_CREATIME, READ_FLAG
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.item.base.entity.Example" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.item.entity.SysInfoExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from ITEM_DETAIL
+    from SYS_INFO
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -87,96 +85,76 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from ITEM_DETAIL
+    from SYS_INFO
     where ID = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from ITEM_DETAIL
+    delete from SYS_INFO
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.item.base.entity.Example" >
-    delete from ITEM_DETAIL
+  <delete id="deleteByExample" parameterType="com.item.entity.SysInfoExample" >
+    delete from SYS_INFO
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.item.entity.ItemDetail" >
-    insert into ITEM_DETAIL (ID, ITEM_NAME, ITEM_NUMBER, 
-      ITEM_STORAGE, DOC_CREATE_TIME, DOC_MAIN_ID
-      )
-    values (#{id,jdbcType=VARCHAR}, #{itemName,jdbcType=VARCHAR}, #{itemNumber,jdbcType=INTEGER}, 
-      #{itemStorage,jdbcType=VARCHAR}, #{docCreateTime,jdbcType=TIMESTAMP}, #{docMainId,jdbcType=VARCHAR}
-      )
+  <insert id="insert" parameterType="com.item.entity.SysInfo" >
+    insert into SYS_INFO (ID, DOC_SUBJECT, DOC_CREATIME, 
+      READ_FLAG)
+    values (#{id,jdbcType=VARCHAR}, #{docSubject,jdbcType=VARCHAR}, #{docCreatime,jdbcType=TIMESTAMP}, 
+      #{readFlag,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.item.entity.ItemDetail" >
-    insert into ITEM_DETAIL
+  <insert id="insertSelective" parameterType="com.item.entity.SysInfo" >
+    insert into SYS_INFO
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         ID,
       </if>
-      <if test="itemName != null" >
-        ITEM_NAME,
+      <if test="docSubject != null" >
+        DOC_SUBJECT,
       </if>
-      <if test="itemNumber != null" >
-        ITEM_NUMBER,
+      <if test="docCreatime != null" >
+        DOC_CREATIME,
       </if>
-      <if test="itemStorage != null" >
-        ITEM_STORAGE,
-      </if>
-      <if test="docCreateTime != null" >
-        DOC_CREATE_TIME,
-      </if>
-      <if test="docMainId != null" >
-        DOC_MAIN_ID,
+      <if test="readFlag != null" >
+        READ_FLAG,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=VARCHAR},
       </if>
-      <if test="itemName != null" >
-        #{itemName,jdbcType=VARCHAR},
+      <if test="docSubject != null" >
+        #{docSubject,jdbcType=VARCHAR},
       </if>
-      <if test="itemNumber != null" >
-        #{itemNumber,jdbcType=INTEGER},
+      <if test="docCreatime != null" >
+        #{docCreatime,jdbcType=TIMESTAMP},
       </if>
-      <if test="itemStorage != null" >
-        #{itemStorage,jdbcType=VARCHAR},
-      </if>
-      <if test="docCreateTime != null" >
-        #{docCreateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="docMainId != null" >
-        #{docMainId,jdbcType=VARCHAR},
+      <if test="readFlag != null" >
+        #{readFlag,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.item.base.entity.Example" resultType="java.lang.Integer" >
-    select count(*) from ITEM_DETAIL
+  <select id="countByExample" parameterType="com.item.entity.SysInfoExample" resultType="java.lang.Integer" >
+    select count(*) from SYS_INFO
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update ITEM_DETAIL
+    update SYS_INFO
     <set >
       <if test="record.id != null" >
         ID = #{record.id,jdbcType=VARCHAR},
       </if>
-      <if test="record.itemName != null" >
-        ITEM_NAME = #{record.itemName,jdbcType=VARCHAR},
+      <if test="record.docSubject != null" >
+        DOC_SUBJECT = #{record.docSubject,jdbcType=VARCHAR},
       </if>
-      <if test="record.itemNumber != null" >
-        ITEM_NUMBER = #{record.itemNumber,jdbcType=INTEGER},
+      <if test="record.docCreatime != null" >
+        DOC_CREATIME = #{record.docCreatime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.itemStorage != null" >
-        ITEM_STORAGE = #{record.itemStorage,jdbcType=VARCHAR},
-      </if>
-      <if test="record.docCreateTime != null" >
-        DOC_CREATE_TIME = #{record.docCreateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.docMainId != null" >
-        DOC_MAIN_ID = #{record.docMainId,jdbcType=VARCHAR},
+      <if test="record.readFlag != null" >
+        READ_FLAG = #{record.readFlag,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -184,45 +162,35 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update ITEM_DETAIL
+    update SYS_INFO
     set ID = #{record.id,jdbcType=VARCHAR},
-      ITEM_NAME = #{record.itemName,jdbcType=VARCHAR},
-      ITEM_NUMBER = #{record.itemNumber,jdbcType=INTEGER},
-      ITEM_STORAGE = #{record.itemStorage,jdbcType=VARCHAR},
-      DOC_CREATE_TIME = #{record.docCreateTime,jdbcType=TIMESTAMP},
-      DOC_MAIN_ID = #{record.docMainId,jdbcType=VARCHAR}
+      DOC_SUBJECT = #{record.docSubject,jdbcType=VARCHAR},
+      DOC_CREATIME = #{record.docCreatime,jdbcType=TIMESTAMP},
+      READ_FLAG = #{record.readFlag,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.item.entity.ItemDetail" >
-    update ITEM_DETAIL
+  <update id="updateByPrimaryKeySelective" parameterType="com.item.entity.SysInfo" >
+    update SYS_INFO
     <set >
-      <if test="itemName != null" >
-        ITEM_NAME = #{itemName,jdbcType=VARCHAR},
+      <if test="docSubject != null" >
+        DOC_SUBJECT = #{docSubject,jdbcType=VARCHAR},
       </if>
-      <if test="itemNumber != null" >
-        ITEM_NUMBER = #{itemNumber,jdbcType=INTEGER},
+      <if test="docCreatime != null" >
+        DOC_CREATIME = #{docCreatime,jdbcType=TIMESTAMP},
       </if>
-      <if test="itemStorage != null" >
-        ITEM_STORAGE = #{itemStorage,jdbcType=VARCHAR},
-      </if>
-      <if test="docCreateTime != null" >
-        DOC_CREATE_TIME = #{docCreateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="docMainId != null" >
-        DOC_MAIN_ID = #{docMainId,jdbcType=VARCHAR},
+      <if test="readFlag != null" >
+        READ_FLAG = #{readFlag,jdbcType=VARCHAR},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.item.entity.ItemDetail" >
-    update ITEM_DETAIL
-    set ITEM_NAME = #{itemName,jdbcType=VARCHAR},
-      ITEM_NUMBER = #{itemNumber,jdbcType=INTEGER},
-      ITEM_STORAGE = #{itemStorage,jdbcType=VARCHAR},
-      DOC_CREATE_TIME = #{docCreateTime,jdbcType=TIMESTAMP},
-      DOC_MAIN_ID = #{docMainId,jdbcType=VARCHAR}
+  <update id="updateByPrimaryKey" parameterType="com.item.entity.SysInfo" >
+    update SYS_INFO
+    set DOC_SUBJECT = #{docSubject,jdbcType=VARCHAR},
+      DOC_CREATIME = #{docCreatime,jdbcType=TIMESTAMP},
+      READ_FLAG = #{readFlag,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

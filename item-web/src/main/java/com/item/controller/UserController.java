@@ -5,7 +5,6 @@
  */
 package com.item.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.item.entity.Users;
-import com.item.entity.UsersExample;
 import com.item.inner.tree.entity.TreeNode;
-import com.item.inner.tree.util.TreeUtil;
 import com.item.service.UsersService;
 
 
 @Controller
 @RequestMapping(value = "/item/user")
-public class UserController extends BaseController<UsersService,UsersExample,Users>{
+public class UserController extends BaseController<UsersService,Users>{
 
 	@Autowired
 	private UsersService userService;
@@ -36,20 +33,6 @@ public class UserController extends BaseController<UsersService,UsersExample,Use
 	@RequestMapping(value = "/getUserTree.do")
 	@ResponseBody
 	public List<TreeNode> getUserTree(Users user) throws Exception{
-		List<Users> users = userService.selectByExample(user.getExample());
-		if(null == users || users.isEmpty()){
-			return new ArrayList<TreeNode>();
-		}
-		TreeNode temp = new TreeNode();
-		temp.setId("uuid");
-		temp.setFdName("userName");
-		temp.setFdParentId("parentUserId");
-		List<TreeNode> tree = TreeUtil.coverToTreeNode(users, temp);
-		return tree;
-	}
-	
-	@Override
-	public UsersExample getExample(Users user){
-		return user.getExample();
+		return null;
 	}
 }

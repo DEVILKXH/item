@@ -9,18 +9,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.item.base.entity.BaseEntity;
+import com.item.base.entity.Example;
 import com.item.entity.Users;
-import com.item.entity.UsersExample;
 import com.item.inner.base.service.BaseService;
 import com.item.inner.dto.AjaxResult;
 import com.item.service.UsersService;
+import com.item.utils.ExampleUtil;
 
 
 
-public class BaseController<S extends BaseService<T,E>, T, E> {
+public class BaseController<S extends BaseService<E>, E> {
 	
 	@Autowired
 	private S service;
+	
+	@Autowired
+	private ExampleUtil exampleUtil;
 	
 	@RequestMapping(value = "/insertSelective.do",method={RequestMethod.POST})
 	@ResponseBody
@@ -28,8 +32,8 @@ public class BaseController<S extends BaseService<T,E>, T, E> {
 		AjaxResult<E> ajax = new AjaxResult<E>();
 		if(record.getClass()  == Users.class){
 			Users user = (Users)record;
-			UsersExample example = new UsersExample();
-			example.createCriteria().andUserNameEqualTo(user.getUserName());
+			Example example = new Example();
+			example.createCriteria().andEqualTo("USER_NAME",user.getUserName());
 			UsersService userService = (UsersService) service;
 			List<Users> list = userService.selectByExample(example);
 			if(null != list && list.size() > 0){
@@ -39,7 +43,7 @@ public class BaseController<S extends BaseService<T,E>, T, E> {
 			}
 		}
 		BaseEntity baseEntity = (BaseEntity)record;
-		baseEntity.setUuid(UUID.randomUUID().toString());
+		baseEntity.setId(UUID.randomUUID().toString());
 		int flag = service.insertSelective(record);
 		if(flag == 0){
 			ajax.setStatus("500");
@@ -47,7 +51,7 @@ public class BaseController<S extends BaseService<T,E>, T, E> {
 		}else{
 			ajax.setStatus("200");
 			ajax.setMessage("插入成功");
-			ajax.setObject(service.selectByPrimaryKey(baseEntity.getUuid()));
+			ajax.setObject(service.selectByPrimaryKey(baseEntity.getId()));
 		}
 		return ajax;
 	}
@@ -58,8 +62,8 @@ public class BaseController<S extends BaseService<T,E>, T, E> {
 		AjaxResult<E> ajax = new AjaxResult<E>();
 		if(record.getClass()  == Users.class){
 			Users user = (Users)record;
-			UsersExample example = new UsersExample();
-			example.createCriteria().andUserNameEqualTo(user.getUserName());
+			Example example = new Example();
+			example.createCriteria().andEqualTo("USER_NAME", user.getUserName());
 			UsersService userService = (UsersService) service;
 			List<Users> list = userService.selectByExample(example);
 			if(null != list && list.size() > 0){
@@ -69,7 +73,7 @@ public class BaseController<S extends BaseService<T,E>, T, E> {
 			}
 		}
 		BaseEntity baseEntity = (BaseEntity)record;
-		baseEntity.setUuid(UUID.randomUUID().toString());
+		baseEntity.setId(UUID.randomUUID().toString());
 		int flag = service.insert(record);
 		if(flag == 0){
 			ajax.setStatus("500");
@@ -77,7 +81,7 @@ public class BaseController<S extends BaseService<T,E>, T, E> {
 		}else{
 			ajax.setStatus("200");
 			ajax.setMessage("插入成功");
-			ajax.setObject(service.selectByPrimaryKey(baseEntity.getUuid()));
+			ajax.setObject(service.selectByPrimaryKey(baseEntity.getId()));
 		}
 		return ajax;
 	}
@@ -85,14 +89,14 @@ public class BaseController<S extends BaseService<T,E>, T, E> {
 	@RequestMapping(value = "/selectOne.do",method={RequestMethod.POST})
 	@ResponseBody
 	public E selectOne(E record){
-		T example =  getExample(record);
+		Example example =  getExample(record);
 		List<E> records = service.selectByExample(example);
 		if(null == records || records.size() == 0 ){
 			return null;
 		}
 		return records.get(0);
 	}
-	
+
 	@RequestMapping(value = "/updateSelective.do",method={RequestMethod.POST})
 	@ResponseBody
 	public AjaxResult<E> updateSelective(E record){
@@ -105,7 +109,7 @@ public class BaseController<S extends BaseService<T,E>, T, E> {
 		}else{
 			ajax.setStatus("200");
 			ajax.setMessage("更新成功");
-			ajax.setObject(service.selectByPrimaryKey(baseEntity.getUuid()));
+			ajax.setObject(service.selectByPrimaryKey(baseEntity.getId()));
 		}
 		return ajax;
 	}
@@ -122,7 +126,7 @@ public class BaseController<S extends BaseService<T,E>, T, E> {
 		}else{
 			ajax.setStatus("200");
 			ajax.setMessage("更新成功");
-			ajax.setObject(service.selectByPrimaryKey(baseEntity.getUuid()));
+			ajax.setObject(service.selectByPrimaryKey(baseEntity.getId()));
 		}
 		return ajax;
 	}
@@ -132,7 +136,7 @@ public class BaseController<S extends BaseService<T,E>, T, E> {
 	public AjaxResult<E> delete(E record){
 		AjaxResult<E> ajax = new AjaxResult<E>();
 		BaseEntity baseEntity = (BaseEntity) record;
-		int flag = service.deleteByPrimaryKey(baseEntity.getUuid());
+		int flag = service.deleteByPrimaryKey(baseEntity.getId());
 		if(flag == 0){
 			ajax.setStatus("500");
 			ajax.setMessage("删除失败");
@@ -143,7 +147,7 @@ public class BaseController<S extends BaseService<T,E>, T, E> {
 		return ajax;
 	}
 	
-	public T getExample(E record){
-		return null;
+	private Example getExample(E record) {
+		return exampleUtil.getExample(record);
 	}
 }

@@ -8,6 +8,10 @@
 	if(request.getAttribute("contextPath")==null){
 		String contextPath = request.getContextPath();
 		request.setAttribute("contextPath", contextPath);
-		request.setAttribute("resources", contextPath+"/resources/");
+		request.setAttribute("resources", contextPath+"/resources");
 	}
 %>
+<script type="text/javascript" src="${resources }/js/config.js"></script>
+<script type="text/javascript" src="${resources }/js/util.js"></script>
+<script type="text/javascript" src="${resources }/js/angular.min.js"></script>
+

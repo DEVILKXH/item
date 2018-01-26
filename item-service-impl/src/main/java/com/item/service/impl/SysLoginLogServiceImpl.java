@@ -10,8 +10,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.item.base.entity.Example;
 import com.item.entity.SysLoginLog;
-import com.item.entity.SysLoginLogExample;
 import com.item.mapper.SysLoginLogMapper;
 import com.item.service.SysLoginLogService;
 
@@ -23,12 +23,12 @@ public class SysLoginLogServiceImpl implements SysLoginLogService{
 	private SysLoginLogMapper sysLoginLogMapper;
 	
 	@Override
-	public int countByExample(SysLoginLogExample example) {
+	public int countByExample(Example example) {
 		return sysLoginLogMapper.countByExample(example);
 	}
 
 	@Override
-	public int deleteByExample(SysLoginLogExample example) {
+	public int deleteByExample(Example example) {
 		return sysLoginLogMapper.deleteByExample(example);
 	}
 
@@ -48,7 +48,7 @@ public class SysLoginLogServiceImpl implements SysLoginLogService{
 	}
 
 	@Override
-	public List<SysLoginLog> selectByExample(SysLoginLogExample example) {
+	public List<SysLoginLog> selectByExample(Example example) {
 		return sysLoginLogMapper.selectByExample(example);
 	}
 
@@ -58,12 +58,12 @@ public class SysLoginLogServiceImpl implements SysLoginLogService{
 	}
 
 	@Override
-	public int updateByExampleSelective(SysLoginLog record, SysLoginLogExample example) {
+	public int updateByExampleSelective(SysLoginLog record, Example example) {
 		return sysLoginLogMapper.updateByExampleSelective(record, example);
 	}
 
 	@Override
-	public int updateByExample(SysLoginLog record, SysLoginLogExample example) {
+	public int updateByExample(SysLoginLog record, Example example) {
 		return sysLoginLogMapper.updateByExample(record, example);
 	}
 
