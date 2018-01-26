@@ -4,6 +4,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
 	if(request.getAttribute("contextPath")==null){
 		String contextPath = request.getContextPath();
@@ -11,6 +12,7 @@
 		request.setAttribute("resources", contextPath+"/resources");
 	}
 %>
+<link rel="stylesheet" type="text/css" href="${resources }/css/common/common.css">
 <script type="text/javascript" src="${resources }/js/config.js"></script>
 <script type="text/javascript" src="${resources }/js/util.js"></script>
 <script type="text/javascript" src="${resources }/js/angular.min.js"></script>

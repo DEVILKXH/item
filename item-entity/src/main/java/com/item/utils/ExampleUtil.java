@@ -7,6 +7,7 @@ package com.item.utils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 
 import org.springframework.stereotype.Component;
 
@@ -25,7 +26,12 @@ public class ExampleUtil {
 			for(Field field : fields){
 				if(field.isAnnotationPresent(com.item.base.entity.annotation.Example.class)){
 					Method m = getGetMethod(field.getName(),c);
-					criteria.andEqualTo(field.getName(),m.invoke(record));
+					Object obj = m.invoke(record);
+					if(obj.getClass() == String.class && StringUtil.isNotNull((String) obj)){
+						criteria.andEqualTo(field.getName(),obj);
+					}else if(null != obj.getClass()){
+						criteria.andEqualTo(field.getName(),obj);
+					}
 				}
 			}
 		} catch (Exception e) {

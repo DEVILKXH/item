@@ -9,10 +9,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.item.entity.Users;
+import com.item.inner.dto.Page;
 import com.item.inner.tree.entity.TreeNode;
 import com.item.service.UsersService;
 
@@ -29,6 +31,19 @@ public class UserController extends BaseController<UsersService,Users>{
 		return "user/index";
 	}
 	
+	@RequestMapping(value = "/getUserPage1.do")
+	public String getUserPage1(Users user,Page<Users> page,Model model){
+		model.addAttribute("page", userService.getUserPage(user, page));
+		model.addAttribute("user", user);
+		return "user/userList";
+	}
+	
+	@RequestMapping(value = "/getUserPage.do")
+	public String getUserPage(Users user,Page<Users> page,Model model){
+		model.addAttribute("page", userService.getUserPage(user, page));
+		model.addAttribute("user", user);
+		return "user/userPage";
+	}
 	
 	@RequestMapping(value = "/getUserTree.do")
 	@ResponseBody

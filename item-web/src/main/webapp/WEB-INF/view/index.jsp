@@ -8,7 +8,6 @@
 	<title>主页</title>
 	<link rel="stylesheet" type="text/css" href="${resources }/css/nav.css">
     <link rel="stylesheet" type="text/css" href="${resources }/font/iconfont.css">
-	
     <script type="text/javascript" src="${resources }/js/jquery.min.js"></script>
     <script type="text/javascript" src="${resources }/js/nav.js"></script>
 </head>
@@ -18,7 +17,7 @@
             <div id="mini" style="border-bottom:1px solid rgba(255,255,255,.1)"><img src="${resources }/images/mini.png" ></div>
         </div>
         <ul>
-            <li class="nav-item">
+            <li class="nav-item nav-show">
                 <a href="javascript:;"><i class="my-icon nav-icon icon_1"></i><span>系统设置</span><i class="my-icon nav-more"></i></a>
                 <ul>
                     <li><a href="javascript:;"><span>人员管理</span></a></li>
@@ -40,6 +39,9 @@
                 </ul>
             </li>
         </ul>
+    </div>
+    <div class="nav-right">
+    	<c:import url="/item/user/getUserPage1.do" />
     </div>
 </body>
 </html>

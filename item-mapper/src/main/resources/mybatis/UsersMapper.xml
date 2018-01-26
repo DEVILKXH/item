@@ -1,243 +1,342 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.item.mapper.UsersMapper" >
-  <resultMap id="BaseResultMap" type="com.item.entity.Users" >
-    <id column="ID" property="id" jdbcType="VARCHAR" />
-    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
-    <result column="PASS_WORD" property="passWord" jdbcType="VARCHAR" />
-    <result column="NICK_NAME" property="nickName" jdbcType="VARCHAR" />
-    <result column="USER_TYPE" property="userType" jdbcType="VARCHAR" />
-    <result column="USER_STATUS" property="userStatus" jdbcType="VARCHAR" />
-    <result column="DOC_CREATE_TIME" property="docCreateTime" jdbcType="TIMESTAMP" />
-  </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List" >
-    ID, USER_NAME, PASS_WORD, NICK_NAME, USER_TYPE, USER_STATUS, DOC_CREATE_TIME
-  </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.item.base.entity.Example" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from USERS
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from USERS
-    where ID = #{id,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from USERS
-    where ID = #{id,jdbcType=VARCHAR}
-  </delete>
-  <delete id="deleteByExample" parameterType="com.item.base.entity.Example" >
-    delete from USERS
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.item.entity.Users" >
-    insert into USERS (ID, USER_NAME, PASS_WORD, 
-      NICK_NAME, USER_TYPE, USER_STATUS, 
-      DOC_CREATE_TIME)
-    values (#{id,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{passWord,jdbcType=VARCHAR}, 
-      #{nickName,jdbcType=VARCHAR}, #{userType,jdbcType=VARCHAR}, #{userStatus,jdbcType=VARCHAR}, 
-      #{docCreateTime,jdbcType=TIMESTAMP})
-  </insert>
-  <insert id="insertSelective" parameterType="com.item.entity.Users" >
-    insert into USERS
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        ID,
-      </if>
-      <if test="userName != null" >
-        USER_NAME,
-      </if>
-      <if test="passWord != null" >
-        PASS_WORD,
-      </if>
-      <if test="nickName != null" >
-        NICK_NAME,
-      </if>
-      <if test="userType != null" >
-        USER_TYPE,
-      </if>
-      <if test="userStatus != null" >
-        USER_STATUS,
-      </if>
-      <if test="docCreateTime != null" >
-        DOC_CREATE_TIME,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="userName != null" >
-        #{userName,jdbcType=VARCHAR},
-      </if>
-      <if test="passWord != null" >
-        #{passWord,jdbcType=VARCHAR},
-      </if>
-      <if test="nickName != null" >
-        #{nickName,jdbcType=VARCHAR},
-      </if>
-      <if test="userType != null" >
-        #{userType,jdbcType=VARCHAR},
-      </if>
-      <if test="userStatus != null" >
-        #{userStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="docCreateTime != null" >
-        #{docCreateTime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="com.item.base.entity.Example" resultType="java.lang.Integer" >
-    select count(*) from USERS
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map" >
-    update USERS
-    <set >
-      <if test="record.id != null" >
-        ID = #{record.id,jdbcType=VARCHAR},
-      </if>
-      <if test="record.userName != null" >
-        USER_NAME = #{record.userName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.passWord != null" >
-        PASS_WORD = #{record.passWord,jdbcType=VARCHAR},
-      </if>
-      <if test="record.nickName != null" >
-        NICK_NAME = #{record.nickName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.userType != null" >
-        USER_TYPE = #{record.userType,jdbcType=VARCHAR},
-      </if>
-      <if test="record.userStatus != null" >
-        USER_STATUS = #{record.userStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="record.docCreateTime != null" >
-        DOC_CREATE_TIME = #{record.docCreateTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map" >
-    update USERS
-    set ID = #{record.id,jdbcType=VARCHAR},
-      USER_NAME = #{record.userName,jdbcType=VARCHAR},
-      PASS_WORD = #{record.passWord,jdbcType=VARCHAR},
-      NICK_NAME = #{record.nickName,jdbcType=VARCHAR},
-      USER_TYPE = #{record.userType,jdbcType=VARCHAR},
-      USER_STATUS = #{record.userStatus,jdbcType=VARCHAR},
-      DOC_CREATE_TIME = #{record.docCreateTime,jdbcType=TIMESTAMP}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.item.entity.Users" >
-    update USERS
-    <set >
-      <if test="userName != null" >
-        USER_NAME = #{userName,jdbcType=VARCHAR},
-      </if>
-      <if test="passWord != null" >
-        PASS_WORD = #{passWord,jdbcType=VARCHAR},
-      </if>
-      <if test="nickName != null" >
-        NICK_NAME = #{nickName,jdbcType=VARCHAR},
-      </if>
-      <if test="userType != null" >
-        USER_TYPE = #{userType,jdbcType=VARCHAR},
-      </if>
-      <if test="userStatus != null" >
-        USER_STATUS = #{userStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="docCreateTime != null" >
-        DOC_CREATE_TIME = #{docCreateTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where ID = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.item.entity.Users" >
-    update USERS
-    set USER_NAME = #{userName,jdbcType=VARCHAR},
-      PASS_WORD = #{passWord,jdbcType=VARCHAR},
-      NICK_NAME = #{nickName,jdbcType=VARCHAR},
-      USER_TYPE = #{userType,jdbcType=VARCHAR},
-      USER_STATUS = #{userStatus,jdbcType=VARCHAR},
-      DOC_CREATE_TIME = #{docCreateTime,jdbcType=TIMESTAMP}
-    where ID = #{id,jdbcType=VARCHAR}
-  </update>
+<mapper namespace="com.item.mapper.UsersMapper">
+	<resultMap id="BaseResultMap" type="com.item.entity.Users">
+		<id column="ID" property="id" jdbcType="VARCHAR" />
+		<result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+		<result column="PASS_WORD" property="passWord" jdbcType="VARCHAR" />
+		<result column="NICK_NAME" property="nickName" jdbcType="VARCHAR" />
+		<result column="USER_TYPE" property="userType" jdbcType="VARCHAR" />
+		<result column="USER_STATUS" property="userStatus" jdbcType="VARCHAR" />
+		<result column="DOC_CREATE_TIME" property="docCreateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		ID, USER_NAME, PASS_WORD, NICK_NAME, USER_TYPE, USER_STATUS,
+		DOC_CREATE_TIME
+	</sql>
+	
+	<select id="getUserPage" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from USERS
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="user.id != null and user.id != ''">
+				and ID = #{user.id} 
+			</if>
+			<if test="user.userName != null and user.userName != ''">
+				and USER_NAME = #{user.userName}
+			</if>
+			<if test="user.passWord != null and user.passWord != ''">
+				and PASS_WORD = #{user.passWord}
+			</if>
+			<if test="user.nickName != null and user.nickName != ''">
+				and NICK_NAME = #{user.nickName}
+			</if>
+			<if test="user.userType != null and user.userType != ''">
+				and USER_TYPE = #{user.userType}
+			</if>
+			<if test="user.userStatus != null and user.userStatus != ''">
+				and USER_STATUS = #{user.userStatus}
+			</if>
+			<if test="user.docCreateTime != null">
+				and DOC_CREATE_TIME = #{user.docCreateTime}
+			</if>
+		</trim>
+		limit #{page.start},#{page.end}
+	</select>
+	
+	<select id="count" resultType="java.lang.Integer" parameterType="com.item.entity.Users">
+		select
+		count(0)
+		from USERS
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="id != null and id != ''">
+				and ID = #{id} 
+			</if>
+			<if test="userName != null and userName != ''">
+				and USER_NAME = #{userName}
+			</if>
+			<if test="passWord != null and passWord != ''">
+				and PASS_WORD = #{passWord}
+			</if>
+			<if test="nickName != null and nickName != ''">
+				and NICK_NAME = #{nickName}
+			</if>
+			<if test="userType != null and userType != ''">
+				and USER_TYPE = #{userType}
+			</if>
+			<if test="userStatus != null and userStatus != ''">
+				and USER_STATUS = #{userStatus}
+			</if>
+			<if test="docCreateTime != null">
+				and DOC_CREATE_TIME = #{docCreateTime}
+			</if>
+		</trim>
+	</select>
+	
+	<select id="getUserList"  resultMap="BaseResultMap" parameterType="com.item.entity.Users">
+		select
+		<include refid="Base_Column_List" />
+		from USERS
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="id != null and id != ''">
+				and ID = #{id} 
+			</if>
+			<if test="userName != null and userName != ''">
+				and USER_NAME = #{userName}
+			</if>
+			<if test="passWord != null and passWord != ''">
+				and PASS_WORD = #{passWord}
+			</if>
+			<if test="nickName != null and nickName != ''">
+				and NICK_NAME = #{nickName}
+			</if>
+			<if test="userType != null and userType != ''">
+				and USER_TYPE = #{userType}
+			</if>
+			<if test="userStatus != null and userStatus != ''">
+				and USER_STATUS = #{userStatus}
+			</if>
+			<if test="docCreateTime != null">
+				and DOC_CREATE_TIME = #{docCreateTime}
+			</if>
+		</trim>
+	</select>
+	
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.item.base.entity.Example">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from USERS
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from USERS
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from USERS
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.item.base.entity.Example">
+		delete from USERS
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.item.entity.Users">
+		insert into USERS (ID, USER_NAME, PASS_WORD,
+		NICK_NAME, USER_TYPE, USER_STATUS,
+		DOC_CREATE_TIME)
+		values (#{id,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR},
+		#{passWord,jdbcType=VARCHAR},
+		#{nickName,jdbcType=VARCHAR}, #{userType,jdbcType=VARCHAR}, #{userStatus,jdbcType=VARCHAR},
+		#{docCreateTime,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.item.entity.Users">
+		insert into USERS
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="userName != null">
+				USER_NAME,
+			</if>
+			<if test="passWord != null">
+				PASS_WORD,
+			</if>
+			<if test="nickName != null">
+				NICK_NAME,
+			</if>
+			<if test="userType != null">
+				USER_TYPE,
+			</if>
+			<if test="userStatus != null">
+				USER_STATUS,
+			</if>
+			<if test="docCreateTime != null">
+				DOC_CREATE_TIME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="userName != null">
+				#{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="passWord != null">
+				#{passWord,jdbcType=VARCHAR},
+			</if>
+			<if test="nickName != null">
+				#{nickName,jdbcType=VARCHAR},
+			</if>
+			<if test="userType != null">
+				#{userType,jdbcType=VARCHAR},
+			</if>
+			<if test="userStatus != null">
+				#{userStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="docCreateTime != null">
+				#{docCreateTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.item.base.entity.Example"
+		resultType="java.lang.Integer">
+		select count(*) from USERS
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update USERS
+		<set>
+			<if test="record.id != null">
+				ID = #{record.id,jdbcType=VARCHAR},
+			</if>
+			<if test="record.userName != null">
+				USER_NAME = #{record.userName,jdbcType=VARCHAR},
+			</if>
+			<if test="record.passWord != null">
+				PASS_WORD = #{record.passWord,jdbcType=VARCHAR},
+			</if>
+			<if test="record.nickName != null">
+				NICK_NAME = #{record.nickName,jdbcType=VARCHAR},
+			</if>
+			<if test="record.userType != null">
+				USER_TYPE = #{record.userType,jdbcType=VARCHAR},
+			</if>
+			<if test="record.userStatus != null">
+				USER_STATUS = #{record.userStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="record.docCreateTime != null">
+				DOC_CREATE_TIME = #{record.docCreateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update USERS
+		set ID = #{record.id,jdbcType=VARCHAR},
+		USER_NAME = #{record.userName,jdbcType=VARCHAR},
+		PASS_WORD = #{record.passWord,jdbcType=VARCHAR},
+		NICK_NAME = #{record.nickName,jdbcType=VARCHAR},
+		USER_TYPE = #{record.userType,jdbcType=VARCHAR},
+		USER_STATUS = #{record.userStatus,jdbcType=VARCHAR},
+		DOC_CREATE_TIME = #{record.docCreateTime,jdbcType=TIMESTAMP}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.item.entity.Users">
+		update USERS
+		<set>
+			<if test="userName != null">
+				USER_NAME = #{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="passWord != null">
+				PASS_WORD = #{passWord,jdbcType=VARCHAR},
+			</if>
+			<if test="nickName != null">
+				NICK_NAME = #{nickName,jdbcType=VARCHAR},
+			</if>
+			<if test="userType != null">
+				USER_TYPE = #{userType,jdbcType=VARCHAR},
+			</if>
+			<if test="userStatus != null">
+				USER_STATUS = #{userStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="docCreateTime != null">
+				DOC_CREATE_TIME = #{docCreateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.item.entity.Users">
+		update USERS
+		set USER_NAME = #{userName,jdbcType=VARCHAR},
+		PASS_WORD = #{passWord,jdbcType=VARCHAR},
+		NICK_NAME = #{nickName,jdbcType=VARCHAR},
+		USER_TYPE = #{userType,jdbcType=VARCHAR},
+		USER_STATUS = #{userStatus,jdbcType=VARCHAR},
+		DOC_CREATE_TIME = #{docCreateTime,jdbcType=TIMESTAMP}
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
 </mapper>

@@ -147,7 +147,7 @@ public class BaseController<S extends BaseService<E>, E> {
 		return ajax;
 	}
 	
-	private Example getExample(E record) {
+	public Example getExample(E record) {
 		return exampleUtil.getExample(record);
 	}
 }
