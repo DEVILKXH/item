@@ -26,7 +26,7 @@
 					<select name="userType" class="selectsgl">
 						<option value=>==请选择==</option>
 						<option value="admin" <c:if test="${user.userType == 'admin' }">selected</c:if> >管理员</option>
-						<option value="normal" <c:if test="${user.userType == 'admin' }">selected</c:if>>普通用户</option>
+						<option value="normal" <c:if test="${user.userType == 'normal' }">selected</c:if>>普通用户</option>
 					</select>
 				</td>
 				<td align="center" class="td_normal_title">状态</td>
