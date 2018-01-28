@@ -10,7 +10,9 @@
 		String contextPath = request.getContextPath();
 		request.setAttribute("contextPath", contextPath);
 		request.setAttribute("resources", contextPath+"/resources");
+		request.setAttribute("cuser",session.getAttribute("user"));
 	}
+	
 %>
 <link rel="stylesheet" type="text/css" href="${resources }/css/common/common.css">
 <script type="text/javascript" src="${resources }/js/config.js"></script>

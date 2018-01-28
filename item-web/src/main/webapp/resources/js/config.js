@@ -1,4 +1,4 @@
 /**
  * 
  */
-var context = "http://localhost:8088/item-web/";
+var context = "http://localhost/item-web/";

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.item.base.entity.Example;
+import com.item.constant.Constant;
 import com.item.entity.Users;
 import com.item.inner.dto.AjaxResult;
 import com.item.service.UsersService;
@@ -37,19 +38,20 @@ public class LoginController{
 	public String index(HttpSession session,Model model){
 		Users user = userUtil.getUser(session);
 		if(null == user){
-			return "login";
+			return Constant.LOGIN;
 		}
 		model.addAttribute("user", user);
-		return "index";
+		return Constant.INDEX;
 	}
 	
 	@RequestMapping("/login.do")
-	public String login(HttpSession session){
+	public String login(HttpSession session,Model model){
 		Users user = userUtil.getUser(session);
 		if(null == user){
-			return "login";
+			return Constant.LOGIN;
 		}
-		return "index";
+		model.addAttribute("user", user);
+		return Constant.INDEX;
 	}
 	
 	@RequestMapping(value = "/doLogin.do",method={RequestMethod.POST})
@@ -74,8 +76,7 @@ public class LoginController{
 		if(password.equals(user.getPassWord())){
 			result.setStatus("200");
 			result.setMessage("登录成功");
-			session.setAttribute("user", _user);
-			userUtil.setUser(session, user);
+			userUtil.setUser(session, _user);
 		}else{
 			result.setStatus("500");
 			result.setMessage("账号或密码错误");
@@ -86,13 +87,13 @@ public class LoginController{
 	@RequestMapping(value = "/logout.do")
 	public String doLogout(HttpSession session){
 		session.invalidate();
-		return "login";
+		return Constant.LOGIN;
 	}
 	
 	@RequestMapping(value = "/register.do")
 	public String register(HttpSession session){
 		session.invalidate();
-		return "register";
+		return Constant.REGISTER;
 	}
 	
 	@RequestMapping(value = "/doRegister.do",method = {RequestMethod.POST})

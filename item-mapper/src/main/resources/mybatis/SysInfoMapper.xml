@@ -1,196 +1,305 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.item.mapper.SysInfoMapper" >
-  <resultMap id="BaseResultMap" type="com.item.entity.SysInfo" >
-    <id column="ID" property="id" jdbcType="VARCHAR" />
-    <result column="DOC_SUBJECT" property="docSubject" jdbcType="VARCHAR" />
-    <result column="DOC_CREATIME" property="docCreatime" jdbcType="TIMESTAMP" />
-    <result column="READ_FLAG" property="readFlag" jdbcType="VARCHAR" />
-  </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+	<resultMap id="BaseResultMap" type="com.item.entity.SysInfo" >
+		<id column="ID" property="id" jdbcType="VARCHAR" />
+		<result column="DOC_SUBJECT" property="docSubject" jdbcType="VARCHAR" />
+		<result column="DOC_CREATIME" property="docCreatime" jdbcType="TIMESTAMP" />
+		<result column="READ_FLAG" property="readFlag" jdbcType="VARCHAR" />
+		<result column="DOC_CONTENT" property="docContent" jdbcType="VARCHAR" />
+		<result column="DOC_CREATOR_ID" property="docCreatorId" jdbcType="VARCHAR" />
+		<result column="DOC_CREATOR_NAME" property="docCreatorName" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Example_Where_Clause" >
+		<where >
+			<foreach collection="oredCriteria" item="criteria" separator="or" >
+				<if test="criteria.valid" >
+					<trim prefix="(" suffix=")" prefixOverrides="and" >
+						<foreach collection="criteria.criteria" item="criterion" >
+							<choose >
+								<when test="criterion.noValue" >
                   and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
+								</when>
+								<when test="criterion.singleValue" >
                   and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
+								</when>
+								<when test="criterion.betweenValue" >
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
+								</when>
+								<when test="criterion.listValue" >
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+									<foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
                     #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause" >
+		<where >
+			<foreach collection="example.oredCriteria" item="criteria" separator="or" >
+				<if test="criteria.valid" >
+					<trim prefix="(" suffix=")" prefixOverrides="and" >
+						<foreach collection="criteria.criteria" item="criterion" >
+							<choose >
+								<when test="criterion.noValue" >
                   and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
+								</when>
+								<when test="criterion.singleValue" >
                   and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
+								</when>
+								<when test="criterion.betweenValue" >
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
+								</when>
+								<when test="criterion.listValue" >
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+									<foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
                     #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List" >
-    ID, DOC_SUBJECT, DOC_CREATIME, READ_FLAG
-  </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.item.base.entity.Example" >
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List" >
+    ID, DOC_SUBJECT, DOC_CREATIME, READ_FLAG, DOC_CONTENT, DOC_CREATOR_ID, DOC_CREATOR_NAME
+	</sql>
+	
+	<select id="getSysInfoPage" resultMap="BaseResultMap">
+		 select
+			<include refid="Base_Column_List" />
+	     from SYS_INFO
+	     <trim prefix="where" prefixOverrides="and|or" >
+			<if test="sysInfo.id != null and sysInfo.id != ''" >
+        		and id = #{sysInfo.id,jdbcType=VARCHAR}
+			</if>
+			<if test="sysInfo.docSubject != null and sysInfo.docSubject != ''" >
+        		and doc_subject = #{sysInfo.docSubject,jdbcType=VARCHAR}
+			</if>
+			<if test="sysInfo.docCreatime != null" >
+        		and  doc_creatime = #{sysInfo.docCreatime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="sysInfo.readFlag != null and sysInfo.readFlag != ''" >
+        		and  read_flag = #{sysInfo.readFlag,jdbcType=VARCHAR}
+			</if>
+			<if test="sysInfo.docContent != null  and sysInfo.docContent != ''" >
+        		and  doc_content = #{sysInfo.docContent,jdbcType=VARCHAR}
+			</if>
+			<if test="sysInfo.docCreatorId != null and sysInfo.docCreatorId != ''" >
+        		and doc_creator_id = #{sysInfo.docCreatorId,jdbcType=VARCHAR}
+			</if>
+			<if test="sysInfo.docCreatorName != null and sysInfo.docCreatorName != ''" >
+        		and doc_creator_name #{sysInfo.docCreatorName,jdbcType=VARCHAR}
+			</if>
+			order by doc_Creatime 
+			limit #{page.start},#{page.end}
+		</trim>
+	     
+	</select>
+	
+	<select id="count" resultType="java.lang.Integer">
+		 select
+			count(0)
+	     from SYS_INFO
+	     <trim prefix="where" prefixOverrides="and|or" >
+			<if test="id != null and id != ''" >
+        		and id = #{id,jdbcType=VARCHAR}
+			</if>
+			<if test="docSubject != null and docSubject != ''" >
+        		and doc_subject = #{docSubject,jdbcType=VARCHAR}
+			</if>
+			<if test="docCreatime != null" >
+        		and  doc_creatime = #{docCreatime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="readFlag != null and readFlag != ''" >
+        		and  read_flag = #{readFlag,jdbcType=VARCHAR}
+			</if>
+			<if test="docContent != null  and docContent != ''" >
+        		and  doc_content = #{docContent,jdbcType=VARCHAR}
+			</if>
+			<if test="docCreatorId != null and docCreatorId != ''" >
+        		and doc_creator_id = #{docCreatorId,jdbcType=VARCHAR}
+			</if>
+			<if test="docCreatorName != null and docCreatorName != ''" >
+        		and doc_creator_name #{docCreatorName,jdbcType=VARCHAR}
+			</if>
+		</trim>
+	</select>
+	
+	<select id="selectByExample" resultMap="BaseResultMap" parameterType="com.item.base.entity.Example" >
     select
-    <if test="distinct" >
+		<if test="distinct" >
       distinct
-    </if>
-    <include refid="Base_Column_List" />
+		</if>
+		<include refid="Base_Column_List" />
     from SYS_INFO
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
+		<if test="_parameter != null" >
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null" >
       order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
-    <include refid="Base_Column_List" />
+		<include refid="Base_Column_List" />
     from SYS_INFO
     where ID = #{id,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from SYS_INFO
     where ID = #{id,jdbcType=VARCHAR}
-  </delete>
-  <delete id="deleteByExample" parameterType="com.item.base.entity.Example" >
+	</delete>
+	<delete id="deleteByExample" parameterType="com.item.base.entity.Example" >
     delete from SYS_INFO
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.item.entity.SysInfo" >
+		<if test="_parameter != null" >
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.item.entity.SysInfo" >
     insert into SYS_INFO (ID, DOC_SUBJECT, DOC_CREATIME, 
-      READ_FLAG)
+      READ_FLAG, DOC_CONTENT, DOC_CREATOR_ID, 
+      DOC_CREATOR_NAME)
     values (#{id,jdbcType=VARCHAR}, #{docSubject,jdbcType=VARCHAR}, #{docCreatime,jdbcType=TIMESTAMP}, 
-      #{readFlag,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.item.entity.SysInfo" >
+      #{readFlag,jdbcType=VARCHAR}, #{docContent,jdbcType=VARCHAR}, #{docCreatorId,jdbcType=VARCHAR}, 
+      #{docCreatorName,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.item.entity.SysInfo" >
     insert into SYS_INFO
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null" >
         ID,
-      </if>
-      <if test="docSubject != null" >
+			</if>
+			<if test="docSubject != null" >
         DOC_SUBJECT,
-      </if>
-      <if test="docCreatime != null" >
+			</if>
+			<if test="docCreatime != null" >
         DOC_CREATIME,
-      </if>
-      <if test="readFlag != null" >
+			</if>
+			<if test="readFlag != null" >
         READ_FLAG,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+			</if>
+			<if test="docContent != null" >
+        DOC_CONTENT,
+			</if>
+			<if test="docCreatorId != null" >
+        DOC_CREATOR_ID,
+			</if>
+			<if test="docCreatorName != null" >
+        DOC_CREATOR_NAME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id != null" >
         #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="docSubject != null" >
+			</if>
+			<if test="docSubject != null" >
         #{docSubject,jdbcType=VARCHAR},
-      </if>
-      <if test="docCreatime != null" >
+			</if>
+			<if test="docCreatime != null" >
         #{docCreatime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="readFlag != null" >
+			</if>
+			<if test="readFlag != null" >
         #{readFlag,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="com.item.base.entity.Example" resultType="java.lang.Integer" >
+			</if>
+			<if test="docContent != null" >
+        #{docContent,jdbcType=VARCHAR},
+			</if>
+			<if test="docCreatorId != null" >
+        #{docCreatorId,jdbcType=VARCHAR},
+			</if>
+			<if test="docCreatorName != null" >
+        #{docCreatorName,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.item.base.entity.Example" resultType="java.lang.Integer" >
     select count(*) from SYS_INFO
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map" >
+		<if test="_parameter != null" >
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map" >
     update SYS_INFO
-    <set >
-      <if test="record.id != null" >
+		<set >
+			<if test="record.id != null" >
         ID = #{record.id,jdbcType=VARCHAR},
-      </if>
-      <if test="record.docSubject != null" >
+			</if>
+			<if test="record.docSubject != null" >
         DOC_SUBJECT = #{record.docSubject,jdbcType=VARCHAR},
-      </if>
-      <if test="record.docCreatime != null" >
+			</if>
+			<if test="record.docCreatime != null" >
         DOC_CREATIME = #{record.docCreatime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.readFlag != null" >
+			</if>
+			<if test="record.readFlag != null" >
         READ_FLAG = #{record.readFlag,jdbcType=VARCHAR},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map" >
+			</if>
+			<if test="record.docContent != null" >
+        DOC_CONTENT = #{record.docContent,jdbcType=VARCHAR},
+			</if>
+			<if test="record.docCreatorId != null" >
+        DOC_CREATOR_ID = #{record.docCreatorId,jdbcType=VARCHAR},
+			</if>
+			<if test="record.docCreatorName != null" >
+        DOC_CREATOR_NAME = #{record.docCreatorName,jdbcType=VARCHAR},
+			</if>
+		</set>
+		<if test="_parameter != null" >
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map" >
     update SYS_INFO
     set ID = #{record.id,jdbcType=VARCHAR},
       DOC_SUBJECT = #{record.docSubject,jdbcType=VARCHAR},
       DOC_CREATIME = #{record.docCreatime,jdbcType=TIMESTAMP},
-      READ_FLAG = #{record.readFlag,jdbcType=VARCHAR}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.item.entity.SysInfo" >
+      READ_FLAG = #{record.readFlag,jdbcType=VARCHAR},
+      DOC_CONTENT = #{record.docContent,jdbcType=VARCHAR},
+      DOC_CREATOR_ID = #{record.docCreatorId,jdbcType=VARCHAR},
+      DOC_CREATOR_NAME = #{record.docCreatorName,jdbcType=VARCHAR}
+		<if test="_parameter != null" >
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.item.entity.SysInfo" >
     update SYS_INFO
-    <set >
-      <if test="docSubject != null" >
+		<set >
+			<if test="docSubject != null" >
         DOC_SUBJECT = #{docSubject,jdbcType=VARCHAR},
-      </if>
-      <if test="docCreatime != null" >
+			</if>
+			<if test="docCreatime != null" >
         DOC_CREATIME = #{docCreatime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="readFlag != null" >
+			</if>
+			<if test="readFlag != null" >
         READ_FLAG = #{readFlag,jdbcType=VARCHAR},
-      </if>
-    </set>
+			</if>
+			<if test="docContent != null" >
+        DOC_CONTENT = #{docContent,jdbcType=VARCHAR},
+			</if>
+			<if test="docCreatorId != null" >
+        DOC_CREATOR_ID = #{docCreatorId,jdbcType=VARCHAR},
+			</if>
+			<if test="docCreatorName != null" >
+        DOC_CREATOR_NAME = #{docCreatorName,jdbcType=VARCHAR},
+			</if>
+		</set>
     where ID = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.item.entity.SysInfo" >
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.item.entity.SysInfo" >
     update SYS_INFO
     set DOC_SUBJECT = #{docSubject,jdbcType=VARCHAR},
       DOC_CREATIME = #{docCreatime,jdbcType=TIMESTAMP},
-      READ_FLAG = #{readFlag,jdbcType=VARCHAR}
+      READ_FLAG = #{readFlag,jdbcType=VARCHAR},
+      DOC_CONTENT = #{docContent,jdbcType=VARCHAR},
+      DOC_CREATOR_ID = #{docCreatorId,jdbcType=VARCHAR},
+      DOC_CREATOR_NAME = #{docCreatorName,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
-  </update>
+	</update>
 </mapper>

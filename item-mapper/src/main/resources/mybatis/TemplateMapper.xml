@@ -1,189 +1,244 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.item.mapper.TemplateMapper" >
-  <resultMap id="BaseResultMap" type="com.item.entity.Template" >
-    <id column="ID" property="id" jdbcType="VARCHAR" />
-    <result column="TEMPLATE_NAME" property="templateName" jdbcType="VARCHAR" />
-    <result column="DOC_CREATOR_ID" property="docCreatorId" jdbcType="VARCHAR" />
-    <result column="DOC_CREATOR_NAME" property="docCreatorName" jdbcType="VARCHAR" />
-    <result column="DOC_CREATIME" property="docCreatime" jdbcType="TIMESTAMP" />
-    <result column="TEMPLATE_INFO" property="templateInfo" jdbcType="VARCHAR" />
-  </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+	<resultMap id="BaseResultMap" type="com.item.entity.Template" >
+		<id column="ID" property="id" jdbcType="VARCHAR" />
+		<result column="TEMPLATE_NAME" property="templateName" jdbcType="VARCHAR" />
+		<result column="DOC_CREATOR_ID" property="docCreatorId" jdbcType="VARCHAR" />
+		<result column="DOC_CREATOR_NAME" property="docCreatorName" jdbcType="VARCHAR" />
+		<result column="DOC_CREATIME" property="docCreatime" jdbcType="TIMESTAMP" />
+		<result column="TEMPLATE_INFO" property="templateInfo" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Example_Where_Clause" >
+		<where >
+			<foreach collection="oredCriteria" item="criteria" separator="or" >
+				<if test="criteria.valid" >
+					<trim prefix="(" suffix=")" prefixOverrides="and" >
+						<foreach collection="criteria.criteria" item="criterion" >
+							<choose >
+								<when test="criterion.noValue" >
                   and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
+								</when>
+								<when test="criterion.singleValue" >
                   and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
+								</when>
+								<when test="criterion.betweenValue" >
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
+								</when>
+								<when test="criterion.listValue" >
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+									<foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
                     #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause" >
+		<where >
+			<foreach collection="example.oredCriteria" item="criteria" separator="or" >
+				<if test="criteria.valid" >
+					<trim prefix="(" suffix=")" prefixOverrides="and" >
+						<foreach collection="criteria.criteria" item="criterion" >
+							<choose >
+								<when test="criterion.noValue" >
                   and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
+								</when>
+								<when test="criterion.singleValue" >
                   and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
+								</when>
+								<when test="criterion.betweenValue" >
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
+								</when>
+								<when test="criterion.listValue" >
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+									<foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
                     #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List" >
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List" >
     ID, TEMPLATE_NAME, DOC_CREATOR_ID, DOC_CREATOR_NAME, DOC_CREATIME, TEMPLATE_INFO
-  </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.item.base.entity.Example" >
+	</sql>
+	
+	<select id="getTemplatePage" resultMap="BaseResultMap" parameterType="com.item.entity.Template">
+		 select
+		<include refid="Base_Column_List" />
+	    from TEMPLATE
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="template.id != null and template.id != ''" >
+        		and id = #{template.id,jdbcType=VARCHAR}
+			</if>
+			<if test="template.templateName != null and template.templateName != ''" >
+        		and template_Name = #{template.templateName,jdbcType=VARCHAR}
+			</if>
+			<if test="template.docCreatorId != null and template.docCreatorId != ''" >
+        		and doc_Creator_Id = #{template.docCreatorId,jdbcType=VARCHAR}
+			</if>
+			<if test="template.docCreatorName != null and template.docCreatorName != ''" >
+        		and doc_Creator_Name = #{template.docCreatorName,jdbcType=VARCHAR}
+			</if>
+			<if test="template.docCreatime != null" >
+        		and doc_Creatime = #{template.docCreatime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="template.templateInfo != null and template.templateInfo != ''" >
+        		and template_Info = #{template.templateInfo,jdbcType=VARCHAR}
+			</if>
+		</trim>
+		order by doc_Creatime
+		limit #{page.start},#{page.end}
+	</select>
+	
+	<select id="count" resultType="java.lang.Integer">
+		select
+		count(0)
+	    from TEMPLATE
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="id != null and id != ''" >
+        		and id = #{id,jdbcType=VARCHAR}
+			</if>
+			<if test="templateName != null and templateName != ''" >
+        		and template_Name = #{templateName,jdbcType=VARCHAR}
+			</if>
+			<if test="docCreatorId != null and docCreatorId != ''" >
+        		and doc_Creator_Id = #{docCreatorId,jdbcType=VARCHAR}
+			</if>
+			<if test="docCreatorName != null and docCreatorName != ''" >
+        		and doc_Creator_Name = #{docCreatorName,jdbcType=VARCHAR}
+			</if>
+			<if test="docCreatime != null" >
+        		and doc_Creatime = #{docCreatime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="templateInfo != null and templateInfo != ''" >
+        		and template_Info = #{templateInfo,jdbcType=VARCHAR}
+			</if>
+		</trim>
+	</select>
+	
+	<select id="selectByExample" resultMap="BaseResultMap" parameterType="com.item.base.entity.Example" >
     select
-    <if test="distinct" >
+		<if test="distinct" >
       distinct
-    </if>
-    <include refid="Base_Column_List" />
+		</if>
+		<include refid="Base_Column_List" />
     from TEMPLATE
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
+		<if test="_parameter != null" >
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null" >
       order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
-    <include refid="Base_Column_List" />
+		<include refid="Base_Column_List" />
     from TEMPLATE
     where ID = #{id,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from TEMPLATE
     where ID = #{id,jdbcType=VARCHAR}
-  </delete>
-  <delete id="deleteByExample" parameterType="com.item.base.entity.Example" >
+	</delete>
+	<delete id="deleteByExample" parameterType="com.item.base.entity.Example" >
     delete from TEMPLATE
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.item.entity.Template" >
+		<if test="_parameter != null" >
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.item.entity.Template" >
     insert into TEMPLATE (ID, TEMPLATE_NAME, DOC_CREATOR_ID, 
       DOC_CREATOR_NAME, DOC_CREATIME, TEMPLATE_INFO
       )
     values (#{id,jdbcType=VARCHAR}, #{templateName,jdbcType=VARCHAR}, #{docCreatorId,jdbcType=VARCHAR}, 
       #{docCreatorName,jdbcType=VARCHAR}, #{docCreatime,jdbcType=TIMESTAMP}, #{templateInfo,jdbcType=VARCHAR}
       )
-  </insert>
-  <insert id="insertSelective" parameterType="com.item.entity.Template" >
+	</insert>
+	<insert id="insertSelective" parameterType="com.item.entity.Template" >
     insert into TEMPLATE
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null" >
         ID,
-      </if>
-      <if test="templateName != null" >
+			</if>
+			<if test="templateName != null" >
         TEMPLATE_NAME,
-      </if>
-      <if test="docCreatorId != null" >
+			</if>
+			<if test="docCreatorId != null" >
         DOC_CREATOR_ID,
-      </if>
-      <if test="docCreatorName != null" >
+			</if>
+			<if test="docCreatorName != null" >
         DOC_CREATOR_NAME,
-      </if>
-      <if test="docCreatime != null" >
+			</if>
+			<if test="docCreatime != null" >
         DOC_CREATIME,
-      </if>
-      <if test="templateInfo != null" >
+			</if>
+			<if test="templateInfo != null" >
         TEMPLATE_INFO,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id != null" >
         #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="templateName != null" >
+			</if>
+			<if test="templateName != null" >
         #{templateName,jdbcType=VARCHAR},
-      </if>
-      <if test="docCreatorId != null" >
+			</if>
+			<if test="docCreatorId != null" >
         #{docCreatorId,jdbcType=VARCHAR},
-      </if>
-      <if test="docCreatorName != null" >
+			</if>
+			<if test="docCreatorName != null" >
         #{docCreatorName,jdbcType=VARCHAR},
-      </if>
-      <if test="docCreatime != null" >
+			</if>
+			<if test="docCreatime != null" >
         #{docCreatime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="templateInfo != null" >
+			</if>
+			<if test="templateInfo != null" >
         #{templateInfo,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="com.item.base.entity.Example" resultType="java.lang.Integer" >
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.item.base.entity.Example" resultType="java.lang.Integer" >
     select count(*) from TEMPLATE
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map" >
+		<if test="_parameter != null" >
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map" >
     update TEMPLATE
-    <set >
-      <if test="record.id != null" >
+		<set >
+			<if test="record.id != null" >
         ID = #{record.id,jdbcType=VARCHAR},
-      </if>
-      <if test="record.templateName != null" >
+			</if>
+			<if test="record.templateName != null" >
         TEMPLATE_NAME = #{record.templateName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.docCreatorId != null" >
+			</if>
+			<if test="record.docCreatorId != null" >
         DOC_CREATOR_ID = #{record.docCreatorId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.docCreatorName != null" >
+			</if>
+			<if test="record.docCreatorName != null" >
         DOC_CREATOR_NAME = #{record.docCreatorName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.docCreatime != null" >
+			</if>
+			<if test="record.docCreatime != null" >
         DOC_CREATIME = #{record.docCreatime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.templateInfo != null" >
+			</if>
+			<if test="record.templateInfo != null" >
         TEMPLATE_INFO = #{record.templateInfo,jdbcType=VARCHAR},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map" >
+			</if>
+		</set>
+		<if test="_parameter != null" >
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map" >
     update TEMPLATE
     set ID = #{record.id,jdbcType=VARCHAR},
       TEMPLATE_NAME = #{record.templateName,jdbcType=VARCHAR},
@@ -191,32 +246,32 @@
       DOC_CREATOR_NAME = #{record.docCreatorName,jdbcType=VARCHAR},
       DOC_CREATIME = #{record.docCreatime,jdbcType=TIMESTAMP},
       TEMPLATE_INFO = #{record.templateInfo,jdbcType=VARCHAR}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.item.entity.Template" >
+		<if test="_parameter != null" >
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.item.entity.Template" >
     update TEMPLATE
-    <set >
-      <if test="templateName != null" >
+		<set >
+			<if test="templateName != null" >
         TEMPLATE_NAME = #{templateName,jdbcType=VARCHAR},
-      </if>
-      <if test="docCreatorId != null" >
+			</if>
+			<if test="docCreatorId != null" >
         DOC_CREATOR_ID = #{docCreatorId,jdbcType=VARCHAR},
-      </if>
-      <if test="docCreatorName != null" >
+			</if>
+			<if test="docCreatorName != null" >
         DOC_CREATOR_NAME = #{docCreatorName,jdbcType=VARCHAR},
-      </if>
-      <if test="docCreatime != null" >
+			</if>
+			<if test="docCreatime != null" >
         DOC_CREATIME = #{docCreatime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="templateInfo != null" >
+			</if>
+			<if test="templateInfo != null" >
         TEMPLATE_INFO = #{templateInfo,jdbcType=VARCHAR},
-      </if>
-    </set>
+			</if>
+		</set>
     where ID = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.item.entity.Template" >
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.item.entity.Template" >
     update TEMPLATE
     set TEMPLATE_NAME = #{templateName,jdbcType=VARCHAR},
       DOC_CREATOR_ID = #{docCreatorId,jdbcType=VARCHAR},
@@ -224,5 +279,5 @@
       DOC_CREATIME = #{docCreatime,jdbcType=TIMESTAMP},
       TEMPLATE_INFO = #{templateInfo,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
-  </update>
+	</update>
 </mapper>

@@ -4,15 +4,16 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.item.base.entity.BaseEntity;
 import com.item.base.entity.Example;
+import com.item.constant.Constant;
 import com.item.entity.Users;
 import com.item.inner.base.service.BaseService;
-import com.item.inner.dto.AjaxResult;
 import com.item.service.UsersService;
 import com.item.utils.ExampleUtil;
 
@@ -26,10 +27,32 @@ public class BaseController<S extends BaseService<E>, E> {
 	@Autowired
 	private ExampleUtil exampleUtil;
 	
+	
+	@RequestMapping(value = "/view.do")
+	public String view(String id,Model model){
+		E e = service.selectByPrimaryKey(id);
+		RequestMapping reqm = this.getClass().getAnnotation(RequestMapping.class);
+		String[] value = reqm.value();
+		int index  = value[0].lastIndexOf("/");
+		String moduleName = value[0].substring(index + 1);
+		model.addAttribute("model", e);
+		return moduleName + "/view";
+	}
+	
+	@RequestMapping(value = "/edit.do")
+	public String edit(String id,Model model){
+		E e = service.selectByPrimaryKey(id);
+		RequestMapping reqm = this.getClass().getAnnotation(RequestMapping.class);
+		String[] value = reqm.value();
+		int index  = value[0].lastIndexOf("/");
+		String moduleName = value[0].substring(index + 1);
+		model.addAttribute("model", e);
+		return moduleName + "/edit";
+	}
+	
 	@RequestMapping(value = "/insertSelective.do",method={RequestMethod.POST})
 	@ResponseBody
-	public AjaxResult<E> insertSelective(E record){
-		AjaxResult<E> ajax = new AjaxResult<E>();
+	public String insertSelective(E record,Model model){
 		if(record.getClass()  == Users.class){
 			Users user = (Users)record;
 			Example example = new Example();
@@ -37,29 +60,22 @@ public class BaseController<S extends BaseService<E>, E> {
 			UsersService userService = (UsersService) service;
 			List<Users> list = userService.selectByExample(example);
 			if(null != list && list.size() > 0){
-				ajax.setStatus("500");
-				ajax.setMessage("该用户名已存在");
-				return ajax;
+				model.addAttribute("message", "该用户名已存在");
+				return Constant.FAIL;
 			}
 		}
 		BaseEntity baseEntity = (BaseEntity)record;
 		baseEntity.setId(UUID.randomUUID().toString());
 		int flag = service.insertSelective(record);
 		if(flag == 0){
-			ajax.setStatus("500");
-			ajax.setMessage("插入失败");
+			return Constant.FAIL;
 		}else{
-			ajax.setStatus("200");
-			ajax.setMessage("插入成功");
-			ajax.setObject(service.selectByPrimaryKey(baseEntity.getId()));
+			return Constant.SUCCESS;
 		}
-		return ajax;
 	}
 	
 	@RequestMapping(value = "/insert.do",method={RequestMethod.POST})
-	@ResponseBody
-	public AjaxResult<E> insert(E record){
-		AjaxResult<E> ajax = new AjaxResult<E>();
+	public String insert(E record, Model model){
 		if(record.getClass()  == Users.class){
 			Users user = (Users)record;
 			Example example = new Example();
@@ -67,23 +83,18 @@ public class BaseController<S extends BaseService<E>, E> {
 			UsersService userService = (UsersService) service;
 			List<Users> list = userService.selectByExample(example);
 			if(null != list && list.size() > 0){
-				ajax.setStatus("500");
-				ajax.setMessage("该用户名已存在");
-				return ajax;
+				model.addAttribute("message", "该用户名已存在");
+				return Constant.FAIL;
 			}
 		}
 		BaseEntity baseEntity = (BaseEntity)record;
 		baseEntity.setId(UUID.randomUUID().toString());
 		int flag = service.insert(record);
 		if(flag == 0){
-			ajax.setStatus("500");
-			ajax.setMessage("插入失败");
+			return Constant.FAIL;
 		}else{
-			ajax.setStatus("200");
-			ajax.setMessage("插入成功");
-			ajax.setObject(service.selectByPrimaryKey(baseEntity.getId()));
+			return Constant.SUCCESS;
 		}
-		return ajax;
 	}
 	
 	@RequestMapping(value = "/selectOne.do",method={RequestMethod.POST})
@@ -98,53 +109,34 @@ public class BaseController<S extends BaseService<E>, E> {
 	}
 
 	@RequestMapping(value = "/updateSelective.do",method={RequestMethod.POST})
-	@ResponseBody
-	public AjaxResult<E> updateSelective(E record){
-		BaseEntity baseEntity = (BaseEntity) record;
-		AjaxResult<E> ajax = new AjaxResult<E>();
+	public String updateSelective(E record){
 		int flag = service.updateByPrimaryKeySelective(record);
 		if(flag == 0){
-			ajax.setStatus("500");
-			ajax.setMessage("更新失败");
+			return Constant.FAIL;
 		}else{
-			ajax.setStatus("200");
-			ajax.setMessage("更新成功");
-			ajax.setObject(service.selectByPrimaryKey(baseEntity.getId()));
+			return Constant.SUCCESS;
 		}
-		return ajax;
 	}
 	
 	@RequestMapping(value = "/update.do",method={RequestMethod.POST})
-	@ResponseBody
-	public AjaxResult<E> update(E record){
-		BaseEntity baseEntity = (BaseEntity) record;
-		AjaxResult<E> ajax = new AjaxResult<E>();
+	public String update(E record){
 		int flag = service.updateByPrimaryKey(record);
 		if(flag == 0){
-			ajax.setStatus("500");
-			ajax.setMessage("更新失败");
+			return Constant.FAIL;
 		}else{
-			ajax.setStatus("200");
-			ajax.setMessage("更新成功");
-			ajax.setObject(service.selectByPrimaryKey(baseEntity.getId()));
+			return Constant.SUCCESS;
 		}
-		return ajax;
 	}
 	
 	@RequestMapping(value = "/delete.do",method={RequestMethod.POST})
-	@ResponseBody
-	public AjaxResult<E> delete(E record){
-		AjaxResult<E> ajax = new AjaxResult<E>();
+	public String delete(E record){
 		BaseEntity baseEntity = (BaseEntity) record;
 		int flag = service.deleteByPrimaryKey(baseEntity.getId());
 		if(flag == 0){
-			ajax.setStatus("500");
-			ajax.setMessage("删除失败");
+			return Constant.FAIL;
 		}else{
-			ajax.setStatus("200");
-			ajax.setMessage("删除成功");
+			return Constant.SUCCESS;
 		}
-		return ajax;
 	}
 	
 	public Example getExample(E record) {

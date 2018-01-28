@@ -7,16 +7,23 @@ package com.item.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.item.constant.Constant;
 import com.item.entity.Users;
 import com.item.inner.dto.Page;
 import com.item.inner.tree.entity.TreeNode;
 import com.item.service.UsersService;
+import com.item.util.UserUtil;
+import com.item.utils.StringUtil;
 
 
 @Controller
@@ -25,10 +32,48 @@ public class UserController extends BaseController<UsersService,Users>{
 
 	@Autowired
 	private UsersService userService;
+
+	@Autowired
+	private UserUtil userUtil;
 	
-	@RequestMapping(value = "index.do")
-	public String index(){
-		return "user/index";
+	@RequestMapping("/index.do")
+	public String index(HttpSession session,Model model){
+		Users user = userUtil.getUser(session);
+		if(null == user){
+			return Constant.LOGIN;
+		}
+		model.addAttribute("user", user);
+		return Constant.INDEX;
+	}
+	
+	@RequestMapping(value = "/changePassword.do")
+	public String changePassword(String id){
+		return "user/changePassword";
+	}
+	
+	@RequestMapping(value = "/doChangePassword.do")
+	public String doChangePassword(@RequestBody Users user,Model model){
+		if(StringUtil.isNull(user.getPassWord()) || StringUtil.isNull(user.getPassword2()) || StringUtil.isNull(user.getPassword3())){
+			model.addAttribute("message", "请填写密码");
+			return Constant.FAIL;
+		}
+		if(!user.getPassword2().equals(user.getPassword3())){
+			model.addAttribute("message", "两次密码不一样");
+			return Constant.FAIL;
+		}
+		Users _user = userService.selectByPrimaryKey(user.getId());
+		if(!_user.getPassWord().equals(user.getPassWord())){
+			model.addAttribute("message", "密码错误");
+			return Constant.FAIL;
+		}
+		user.setPassWord(user.getPassword2());
+		userService.updateByPrimaryKeySelective(user);
+		return Constant.SUCCESS;
+	}
+	
+	@RequestMapping(value = "/view2.do")
+	public String view2(String id,HttpServletRequest request){
+		return "user/view2";
 	}
 	
 	@RequestMapping(value = "/getUserPage1.do")

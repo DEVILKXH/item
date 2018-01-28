@@ -14,7 +14,16 @@ public class SysInfo extends BaseEntity{
     private Date docCreatime;
     
     @Example
+    private String docContent;
+    
+    @Example
     private String readFlag;
+    
+    @Example
+    private String docCreatorId;
+    
+    @Example
+    private String docCreatorName;
 
     public String getDocSubject() {
         return docSubject;
@@ -32,11 +41,36 @@ public class SysInfo extends BaseEntity{
         this.docCreatime = docCreatime;
     }
 
-    public String getReadFlag() {
+    public String getDocContent() {
+		return docContent;
+	}
+
+	public void setDocContent(String docContent) {
+		this.docContent = docContent;
+	}
+
+	public String getReadFlag() {
         return readFlag;
     }
 
     public void setReadFlag(String readFlag) {
         this.readFlag = readFlag == null ? null : readFlag.trim();
     }
+
+	public String getDocCreatorId() {
+		return docCreatorId;
+	}
+
+	public void setDocCreatorId(String docCreatorId) {
+		this.docCreatorId = docCreatorId;
+	}
+
+	public String getDocCreatorName() {
+		return docCreatorName;
+	}
+
+	public void setDocCreatorName(String docCreatorName) {
+		this.docCreatorName = docCreatorName;
+	}
+    
 }
