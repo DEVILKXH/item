@@ -34,6 +34,7 @@ public class UserUtil {
 		log.setState("online");
 		log.setLastestLoginTime(new Date());
 		log.setCreateTime(new Date());
+		session.setAttribute("logId", log.getLogId());
 		sysLoginLogService.insertSelective(log);
 	}
 	

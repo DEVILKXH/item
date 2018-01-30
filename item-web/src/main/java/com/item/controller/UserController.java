@@ -5,6 +5,7 @@
  */
 package com.item.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -90,9 +91,23 @@ public class UserController extends BaseController<UsersService,Users>{
 		return "user/userPage";
 	}
 	
+	@RequestMapping(value = "/getUserList.do")
+	public String getUserList(Users user,Model model){
+		model.addAttribute("list", userService.getUserList(user));
+		return "user/dialogList";
+	}
+	
 	@RequestMapping(value = "/getUserTree.do")
 	@ResponseBody
 	public List<TreeNode> getUserTree(Users user) throws Exception{
 		return null;
+	}
+	
+	@RequestMapping(value = "/add.do")
+	public String add(Model model,Users _user,HttpSession session){
+		_user.setDocCreateTime(new Date());
+		model.addAttribute("model", _user);
+		model.addAttribute("method", "add");
+		return "user/edit";
 	}
 }

@@ -11,5 +11,9 @@ public class Constant {
 	public final static String INDEX = "index";
 	
 	public final static String REGISTER = "register";
+	
+	public final static String PUBLISH = "30";
+	
+	public final static String EXMIME = "20";
 
 }

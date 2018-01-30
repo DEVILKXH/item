@@ -31,27 +31,36 @@ public class BaseController<S extends BaseService<E>, E> {
 	@RequestMapping(value = "/view.do")
 	public String view(String id,Model model){
 		E e = service.selectByPrimaryKey(id);
+		if(null == e){
+			model.addAttribute("message", "未找到该文档");
+			return Constant.FAIL;
+		}
 		RequestMapping reqm = this.getClass().getAnnotation(RequestMapping.class);
 		String[] value = reqm.value();
 		int index  = value[0].lastIndexOf("/");
 		String moduleName = value[0].substring(index + 1);
 		model.addAttribute("model", e);
+		model.addAttribute("method", "view");
 		return moduleName + "/view";
 	}
 	
 	@RequestMapping(value = "/edit.do")
 	public String edit(String id,Model model){
 		E e = service.selectByPrimaryKey(id);
+		if(null == e){
+			model.addAttribute("message", "未找到该文档");
+			return Constant.FAIL;
+		}
 		RequestMapping reqm = this.getClass().getAnnotation(RequestMapping.class);
 		String[] value = reqm.value();
 		int index  = value[0].lastIndexOf("/");
 		String moduleName = value[0].substring(index + 1);
 		model.addAttribute("model", e);
+		model.addAttribute("method", "edit");
 		return moduleName + "/edit";
 	}
 	
 	@RequestMapping(value = "/insertSelective.do",method={RequestMethod.POST})
-	@ResponseBody
 	public String insertSelective(E record,Model model){
 		if(record.getClass()  == Users.class){
 			Users user = (Users)record;
@@ -128,7 +137,7 @@ public class BaseController<S extends BaseService<E>, E> {
 		}
 	}
 	
-	@RequestMapping(value = "/delete.do",method={RequestMethod.POST})
+	@RequestMapping(value = "/delete.do")
 	public String delete(E record){
 		BaseEntity baseEntity = (BaseEntity) record;
 		int flag = service.deleteByPrimaryKey(baseEntity.getId());

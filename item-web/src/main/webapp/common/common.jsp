@@ -16,6 +16,7 @@
 %>
 <link rel="stylesheet" type="text/css" href="${resources }/css/common/common.css">
 <script type="text/javascript" src="${resources }/js/config.js"></script>
-<script type="text/javascript" src="${resources }/js/util.js"></script>
 <script type="text/javascript" src="${resources }/js/angular.min.js"></script>
+<script type="text/javascript" src="${resources }/js/jquery.min.js"></script>
+<script type="text/javascript" src="${resources }/js/util.js"></script>
 

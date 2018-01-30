@@ -1,243 +1,318 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.item.mapper.ItemStorageMapper" >
-  <resultMap id="BaseResultMap" type="com.item.entity.ItemStorage" >
-    <id column="ID" property="id" jdbcType="VARCHAR" />
-    <result column="ITEM_NAME" property="itemName" jdbcType="VARCHAR" />
-    <result column="ITEM_STORAGE" property="itemStorage" jdbcType="INTEGER" />
-    <result column="ITEM_STAUS" property="itemStaus" jdbcType="VARCHAR" />
-    <result column="DOC_CREATE_TIME" property="docCreateTime" jdbcType="TIMESTAMP" />
-    <result column="DOC_CREATE_ID" property="docCreateId" jdbcType="VARCHAR" />
-    <result column="DOC_CREATE_NAME" property="docCreateName" jdbcType="VARCHAR" />
-  </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List" >
-    ID, ITEM_NAME, ITEM_STORAGE, ITEM_STAUS, DOC_CREATE_TIME, DOC_CREATE_ID, DOC_CREATE_NAME
-  </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.item.base.entity.Example" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from ITEM_STORAGE
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from ITEM_STORAGE
-    where ID = #{id,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from ITEM_STORAGE
-    where ID = #{id,jdbcType=VARCHAR}
-  </delete>
-  <delete id="deleteByExample" parameterType="com.item.base.entity.Example" >
-    delete from ITEM_STORAGE
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.item.entity.ItemStorage" >
-    insert into ITEM_STORAGE (ID, ITEM_NAME, ITEM_STORAGE, 
-      ITEM_STAUS, DOC_CREATE_TIME, DOC_CREATE_ID, 
-      DOC_CREATE_NAME)
-    values (#{id,jdbcType=VARCHAR}, #{itemName,jdbcType=VARCHAR}, #{itemStorage,jdbcType=INTEGER}, 
-      #{itemStaus,jdbcType=VARCHAR}, #{docCreateTime,jdbcType=TIMESTAMP}, #{docCreateId,jdbcType=VARCHAR}, 
-      #{docCreateName,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.item.entity.ItemStorage" >
-    insert into ITEM_STORAGE
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        ID,
-      </if>
-      <if test="itemName != null" >
-        ITEM_NAME,
-      </if>
-      <if test="itemStorage != null" >
-        ITEM_STORAGE,
-      </if>
-      <if test="itemStaus != null" >
-        ITEM_STAUS,
-      </if>
-      <if test="docCreateTime != null" >
-        DOC_CREATE_TIME,
-      </if>
-      <if test="docCreateId != null" >
-        DOC_CREATE_ID,
-      </if>
-      <if test="docCreateName != null" >
-        DOC_CREATE_NAME,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="itemName != null" >
-        #{itemName,jdbcType=VARCHAR},
-      </if>
-      <if test="itemStorage != null" >
-        #{itemStorage,jdbcType=INTEGER},
-      </if>
-      <if test="itemStaus != null" >
-        #{itemStaus,jdbcType=VARCHAR},
-      </if>
-      <if test="docCreateTime != null" >
-        #{docCreateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="docCreateId != null" >
-        #{docCreateId,jdbcType=VARCHAR},
-      </if>
-      <if test="docCreateName != null" >
-        #{docCreateName,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="com.item.base.entity.Example" resultType="java.lang.Integer" >
-    select count(*) from ITEM_STORAGE
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map" >
-    update ITEM_STORAGE
-    <set >
-      <if test="record.id != null" >
-        ID = #{record.id,jdbcType=VARCHAR},
-      </if>
-      <if test="record.itemName != null" >
-        ITEM_NAME = #{record.itemName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.itemStorage != null" >
-        ITEM_STORAGE = #{record.itemStorage,jdbcType=INTEGER},
-      </if>
-      <if test="record.itemStaus != null" >
-        ITEM_STAUS = #{record.itemStaus,jdbcType=VARCHAR},
-      </if>
-      <if test="record.docCreateTime != null" >
-        DOC_CREATE_TIME = #{record.docCreateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.docCreateId != null" >
-        DOC_CREATE_ID = #{record.docCreateId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.docCreateName != null" >
-        DOC_CREATE_NAME = #{record.docCreateName,jdbcType=VARCHAR},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map" >
-    update ITEM_STORAGE
-    set ID = #{record.id,jdbcType=VARCHAR},
-      ITEM_NAME = #{record.itemName,jdbcType=VARCHAR},
-      ITEM_STORAGE = #{record.itemStorage,jdbcType=INTEGER},
-      ITEM_STAUS = #{record.itemStaus,jdbcType=VARCHAR},
-      DOC_CREATE_TIME = #{record.docCreateTime,jdbcType=TIMESTAMP},
-      DOC_CREATE_ID = #{record.docCreateId,jdbcType=VARCHAR},
-      DOC_CREATE_NAME = #{record.docCreateName,jdbcType=VARCHAR}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.item.entity.ItemStorage" >
-    update ITEM_STORAGE
-    <set >
-      <if test="itemName != null" >
-        ITEM_NAME = #{itemName,jdbcType=VARCHAR},
-      </if>
-      <if test="itemStorage != null" >
-        ITEM_STORAGE = #{itemStorage,jdbcType=INTEGER},
-      </if>
-      <if test="itemStaus != null" >
-        ITEM_STAUS = #{itemStaus,jdbcType=VARCHAR},
-      </if>
-      <if test="docCreateTime != null" >
-        DOC_CREATE_TIME = #{docCreateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="docCreateId != null" >
-        DOC_CREATE_ID = #{docCreateId,jdbcType=VARCHAR},
-      </if>
-      <if test="docCreateName != null" >
-        DOC_CREATE_NAME = #{docCreateName,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where ID = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.item.entity.ItemStorage" >
-    update ITEM_STORAGE
-    set ITEM_NAME = #{itemName,jdbcType=VARCHAR},
-      ITEM_STORAGE = #{itemStorage,jdbcType=INTEGER},
-      ITEM_STAUS = #{itemStaus,jdbcType=VARCHAR},
-      DOC_CREATE_TIME = #{docCreateTime,jdbcType=TIMESTAMP},
-      DOC_CREATE_ID = #{docCreateId,jdbcType=VARCHAR},
-      DOC_CREATE_NAME = #{docCreateName,jdbcType=VARCHAR}
-    where ID = #{id,jdbcType=VARCHAR}
-  </update>
+<mapper namespace="com.item.mapper.ItemStorageMapper">
+	<resultMap id="BaseResultMap" type="com.item.entity.ItemStorage">
+		<id column="ID" property="id" jdbcType="VARCHAR" />
+		<result column="ITEM_NAME" property="itemName" jdbcType="VARCHAR" />
+		<result column="ITEM_STORAGE" property="itemStorage" jdbcType="INTEGER" />
+		<result column="ITEM_STAUS" property="itemStaus" jdbcType="VARCHAR" />
+		<result column="DOC_CREATE_TIME" property="docCreateTime"
+			jdbcType="TIMESTAMP" />
+		<result column="DOC_CREATE_ID" property="docCreateId" jdbcType="VARCHAR" />
+		<result column="DOC_CREATE_NAME" property="docCreateName"
+			jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		ID, ITEM_NAME, ITEM_STORAGE, ITEM_STAUS, DOC_CREATE_TIME, DOC_CREATE_ID,
+		DOC_CREATE_NAME
+	</sql>
+	
+	
+	<select id="getStoragePage" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from ITEM_STORAGE
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="storage.id != null and storage.id != ''">
+				and ID = #{storage.id}
+			</if>
+			<if test="storage.itemName != null and storage.itemName != ''">
+				and ITEM_NAME = #{storage.itemName}
+			</if>
+			<if test="storage.itemStorage != null and storage.itemStorage != ''">
+				and ITEM_STORAGE = #{storage.itemStorage}
+			</if>
+			<if test="storage.itemStaus != null and storage.itemStatus != ''">
+				and ITEM_STAUS = #{storage.itemStatus}
+			</if>
+			<if test="storage.docCreateTime != null">
+				and DOC_CREATE_TIME = #{storage.docCreateTime}
+			</if>
+			<if test="storage.docCreateId != null and storage.docCreateId != ''">
+				and DOC_CREATE_ID = #{storage.docCreateId}
+			</if>
+			<if test="storage.docCreateName != null and storage.docCreateName != ''">
+				and DOC_CREATE_NAME = #{storage.docCreateName}
+			</if>
+		</trim>
+		order by DOC_CREATE_TIME
+		limit #{page.start},#{page.end}
+	</select>
+	
+	
+	<select id="count" resultType="java.lang.Integer" parameterType="com.item.entity.ItemStorage">
+		select
+		count(0)
+		from ITEM_STORAGE
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="id != null and id != ''">
+				and ID = #{id}
+			</if>
+			<if test="itemName != null and itemName != ''">
+				and ITEM_NAME = #{itemName}
+			</if>
+			<if test="itemStorage != null and itemStorage != ''">
+				and ITEM_STORAGE = #{itemStorage}
+			</if>
+			<if test="itemStaus != null and itemStatus != ''">
+				and ITEM_STAUS = #{itemStatus}
+			</if>
+			<if test="docCreateTime != null">
+				and DOC_CREATE_TIME = #{docCreateTime}
+			</if>
+			<if test="docCreateId != null and docCreateId != ''">
+				and DOC_CREATE_ID = #{docCreateId}
+			</if>
+			<if test="docCreateName != null and docCreateName != ''">
+				and DOC_CREATE_NAME = #{docCreateName}
+			</if>
+		</trim>
+	</select>
+	
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.item.base.entity.Example">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from ITEM_STORAGE
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from ITEM_STORAGE
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from ITEM_STORAGE
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.item.base.entity.Example">
+		delete from ITEM_STORAGE
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.item.entity.ItemStorage">
+		insert into ITEM_STORAGE (ID, ITEM_NAME, ITEM_STORAGE,
+		ITEM_STAUS, DOC_CREATE_TIME, DOC_CREATE_ID,
+		DOC_CREATE_NAME)
+		values (#{id,jdbcType=VARCHAR}, #{itemName,jdbcType=VARCHAR},
+		#{itemStorage,jdbcType=INTEGER},
+		#{itemStaus,jdbcType=VARCHAR}, #{docCreateTime,jdbcType=TIMESTAMP}, #{docCreateId,jdbcType=VARCHAR},
+		#{docCreateName,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.item.entity.ItemStorage">
+		insert into ITEM_STORAGE
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="itemName != null">
+				ITEM_NAME,
+			</if>
+			<if test="itemStorage != null">
+				ITEM_STORAGE,
+			</if>
+			<if test="itemStaus != null">
+				ITEM_STAUS,
+			</if>
+			<if test="docCreateTime != null">
+				DOC_CREATE_TIME,
+			</if>
+			<if test="docCreateId != null">
+				DOC_CREATE_ID,
+			</if>
+			<if test="docCreateName != null">
+				DOC_CREATE_NAME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="itemName != null">
+				#{itemName,jdbcType=VARCHAR},
+			</if>
+			<if test="itemStorage != null">
+				#{itemStorage,jdbcType=INTEGER},
+			</if>
+			<if test="itemStaus != null">
+				#{itemStaus,jdbcType=VARCHAR},
+			</if>
+			<if test="docCreateTime != null">
+				#{docCreateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="docCreateId != null">
+				#{docCreateId,jdbcType=VARCHAR},
+			</if>
+			<if test="docCreateName != null">
+				#{docCreateName,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.item.base.entity.Example"
+		resultType="java.lang.Integer">
+		select count(*) from ITEM_STORAGE
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update ITEM_STORAGE
+		<set>
+			<if test="record.id != null">
+				ID = #{record.id,jdbcType=VARCHAR},
+			</if>
+			<if test="record.itemName != null">
+				ITEM_NAME = #{record.itemName,jdbcType=VARCHAR},
+			</if>
+			<if test="record.itemStorage != null">
+				ITEM_STORAGE = #{record.itemStorage,jdbcType=INTEGER},
+			</if>
+			<if test="record.itemStaus != null">
+				ITEM_STAUS = #{record.itemStaus,jdbcType=VARCHAR},
+			</if>
+			<if test="record.docCreateTime != null">
+				DOC_CREATE_TIME = #{record.docCreateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.docCreateId != null">
+				DOC_CREATE_ID = #{record.docCreateId,jdbcType=VARCHAR},
+			</if>
+			<if test="record.docCreateName != null">
+				DOC_CREATE_NAME = #{record.docCreateName,jdbcType=VARCHAR},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update ITEM_STORAGE
+		set ID = #{record.id,jdbcType=VARCHAR},
+		ITEM_NAME = #{record.itemName,jdbcType=VARCHAR},
+		ITEM_STORAGE = #{record.itemStorage,jdbcType=INTEGER},
+		ITEM_STAUS = #{record.itemStaus,jdbcType=VARCHAR},
+		DOC_CREATE_TIME = #{record.docCreateTime,jdbcType=TIMESTAMP},
+		DOC_CREATE_ID = #{record.docCreateId,jdbcType=VARCHAR},
+		DOC_CREATE_NAME = #{record.docCreateName,jdbcType=VARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.item.entity.ItemStorage">
+		update ITEM_STORAGE
+		<set>
+			<if test="itemName != null">
+				ITEM_NAME = #{itemName,jdbcType=VARCHAR},
+			</if>
+			<if test="itemStorage != null">
+				ITEM_STORAGE = #{itemStorage,jdbcType=INTEGER},
+			</if>
+			<if test="itemStaus != null">
+				ITEM_STAUS = #{itemStaus,jdbcType=VARCHAR},
+			</if>
+			<if test="docCreateTime != null">
+				DOC_CREATE_TIME = #{docCreateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="docCreateId != null">
+				DOC_CREATE_ID = #{docCreateId,jdbcType=VARCHAR},
+			</if>
+			<if test="docCreateName != null">
+				DOC_CREATE_NAME = #{docCreateName,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.item.entity.ItemStorage">
+		update ITEM_STORAGE
+		set ITEM_NAME = #{itemName,jdbcType=VARCHAR},
+		ITEM_STORAGE = #{itemStorage,jdbcType=INTEGER},
+		ITEM_STAUS = #{itemStaus,jdbcType=VARCHAR},
+		DOC_CREATE_TIME = #{docCreateTime,jdbcType=TIMESTAMP},
+		DOC_CREATE_ID = #{docCreateId,jdbcType=VARCHAR},
+		DOC_CREATE_NAME = #{docCreateName,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
 </mapper>

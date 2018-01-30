@@ -2,17 +2,18 @@
 .table { width: 95%; margin: 0 auto;}
 .opt_type,.user-info { width: 100%; transition: all .3s; text-align: right;}
 .user-info{ height: 60px; background: #263238; padding: 10px;}
-.opt_type button { height: 25px; margin-right: 10px;margin-top: 10px; padding-left: 15px; padding-right: 15px; background: url(../../images/optbtn_2.jpg); color: white; border: 0; border-radius: 6px;}
+.opt_type button,.opt_type a { height: 25px; margin-right: 10px;margin-top: 10px; padding-left: 15px; padding-right: 15px; background: url(../../images/optbtn_2.jpg); color: white; border: 0; border-radius: 6px;}
+.opt_type a { display: inline-block; line-height: 25px;}
 .user-info span,.user-info a{ font-size: 18px; font-weight: bold; line-height: 40px; color: #ABB1B7; background: 0; margin-right: 10px;}
 .user-info a:hover{ color: white;}
 .td_normal_title { background: #f6f6f6; word-wrap: break-wrap; width: 8%}
 .td_normal_body { width: 17%}
 .search-table { margin-top: 10px;}
-#result-table,#search-table {width: 95%;}
 .inputsgl { width: 85%; border: 0px; border-bottom: 1px solid #b4b4b4; }
 .selectsgl { width: 85%; color: #1b83d8;height: 25px;}
 .page-foot { width: 95%; margin: 0 auto; position: relative;}
 .page-foot > div { position: absolute; left: 0; padding: 0;}
 .page-foot > nav { position: absolute; right: 0; }
 #mypage { margin : 0}
-#search-table,#result-table { margin-bottom:5px;}
+.search-table,.result-table { width: 95% !important; margin-bottom:5px !important;}
+#template{display: none;}

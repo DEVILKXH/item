@@ -14,8 +14,8 @@
             <a href="javascript:;"><i class="my-icon nav-icon icon_1"></i><span>系统设置</span><i class="my-icon nav-more"></i></a>
             <ul>
             	<li><a href="${contextPath }/index.do"><span>个人信息</span></a></li>
-                <c:if test="${user.userType == 'admin' }">
-                 <li><a href="${contextPath }/item/user/getUserPage.do"><span>人员管理</span></a></li>
+                <c:if test="${cuser.userType == 'admin' }">
+                 	<li><a href="${contextPath }/item/user/getUserPage.do"><span>人员管理</span></a></li>
 	                <li><a href="${contextPath }/item/template/getTemplatePage.do"><span>模版设置</span></a></li>
                 </c:if>
             </ul>
@@ -23,17 +23,17 @@
         <li class="nav-item <c:if test="${param.type == 'app' }">nav-show</c:if>">
             <a href="javascript:;"><i class="my-icon nav-icon icon_2"></i><span>内容管理</span><i class="my-icon nav-more"></i></a>
             <ul>
-                <li><a href="javascript:;"><span>我的申请</span></a></li>
-                <c:if test="${user.userType == 'admin' }">
-                	<li><a href=""><span>所有申请</span></a></li>
+                <li><a href="${contextPath }/item/main/getMainPage.do?myDoc=self"><span>我的申请</span></a></li>
+                <c:if test="${cuser.userType == 'admin' }">
+                	<li><a href="${contextPath }/item/main/getMainPage.do"><span>所有申请</span></a></li>
                 </c:if>
                 <li><a href="${contextPath }/item/sysInfo/getSysInfoPage.do"><span>我的消息</span></a></li>
             </ul>
         </li>
-        <li class="nav-item <c:if test="${param.type == 'storge' }">nav-show</c:if>">
+        <li class="nav-item <c:if test="${param.type == 'storage' }">nav-show</c:if>">
             <a href="javascript:;"><i class="my-icon nav-icon icon_3"></i><span>库存管理</span><i class="my-icon nav-more"></i></a>
             <ul>
-                <li><a href="javascript:;"><span>库存列表</span></a></li>
+                <li><a href="${contextPath }/item/storage/getStoragePage.do"><span>库存列表</span></a></li>
             </ul>
         </li>
     </ul>

@@ -34,7 +34,7 @@ public class LoginController{
 	@Autowired
 	private UserUtil userUtil;
 	
-	@RequestMapping("/index.do")
+	@RequestMapping("/item/index.do")
 	public String index(HttpSession session,Model model){
 		Users user = userUtil.getUser(session);
 		if(null == user){
@@ -76,6 +76,7 @@ public class LoginController{
 		if(password.equals(user.getPassWord())){
 			result.setStatus("200");
 			result.setMessage("登录成功");
+			userUtil.addLoginLog(request, session, user);
 			userUtil.setUser(session, _user);
 		}else{
 			result.setStatus("500");
@@ -140,8 +141,6 @@ public class LoginController{
 			result.setMessage("插入成功");
 			result.setObject(userService.selectByPrimaryKey(user.getId()));
 		}
-		userUtil.addLoginLog(request, session, user);
-		userUtil.setUser(session, user);
 		return result;
 	}
 	

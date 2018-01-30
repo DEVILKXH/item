@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/common/common.jsp" %>
 <!DOCTYPE html>
 <html>
@@ -9,7 +8,12 @@
 <title></title>
 </head>
 <body>
-	<form method="POST" name="myform" action="${contextPath}/item/user/updateSelective.do">
+	<c:if test="${method == 'add'}">
+		<form method="POST" name="myform" action="${contextPath}/item/user/insertSelective.do">
+	</c:if>
+	<c:if test="${method == 'edit'}">
+		<form method="POST" name="myform" action="${contextPath}/item/user/updateSelective.do">
+	</c:if>
 		<input type="hidden" name="id" value="${model.id }"/>
 		<div class="user-info">
 			<span>当前用户: ${cuser.userName }</span>

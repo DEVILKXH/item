@@ -42,7 +42,7 @@ app.controller('loginController', function($scope,mainService){
 			mainService.doLogin(data,function(ajax){
 				alert(ajax.data.message);
 				if(ajax.data.status == '200'){
-					window.location.href= context + "index.do";
+					window.location.href= context + "item/index.do";
 				}
 			});
 		}

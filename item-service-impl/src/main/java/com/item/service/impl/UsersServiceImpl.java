@@ -37,7 +37,7 @@ public class UsersServiceImpl extends BaseServiceImpl<Users,UsersMapper> impleme
 
 	@Override
 	public List<Users> getUserList(Users user) {
-		return null;
+		return userMapper.getUserList(user);
 	}
 
 	

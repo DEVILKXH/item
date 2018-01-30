@@ -26,7 +26,7 @@
 		</div>
     
 		<div class="opt_type">
-			<button>新建</button>
+			<button onclick="window.open('${contextPath}/item/template/add.do')">新建</button>
 			<button onclick="document.myform.submit()">搜索</button>
 		</div>
 		

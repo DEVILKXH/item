@@ -32,5 +32,35 @@
 			</td>
 		</tr>
 	</table>
+	
+	<table class="table table-bordered search-table" id="result-table">
+			<tr>
+				<td colspan="4" align="center">流程信息</td>
+			</tr>
+			<tr>
+				<td align="center" class="td_normal_title">
+					序号
+				</td>
+				<td align="center" class="td_normal_title">
+					节点名称
+				</td>
+				<td align="center" class="td_normal_title">
+					处理人
+				</td>
+			</tr>
+			<c:forEach items="${tStep }" var="tn" varStatus="status">
+				<tr class="hanlerInfo">
+				<td align="center" class="td_normal_body hand-index">
+					${status.index + 1 }
+				</td>
+				<td align="center" class="td_normal_body">
+					${tn.node.nodeName }
+				</td>
+				<td align="center" class="td_normal_body">
+					${tn.node.handleName }
+				</td>
+			</tr>
+			</c:forEach>
+		</table>
 </body>
 </html>
