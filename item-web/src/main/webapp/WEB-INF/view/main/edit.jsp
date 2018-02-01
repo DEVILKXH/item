@@ -8,6 +8,15 @@
 <link rel="stylesheet" type="text/css" href="${resources }/bootstrap/css/bootstrap.min.css">
 <title>新增</title>
 <script type="text/javascript">
+function calc(obj){
+	var value = obj.value;
+	var storage = $(obj).closest("tr").find(".itemStorage").val();
+	if(parseInt(value) > parseInt(storage)){
+		alert("库存不足");
+		obj.value = "0";
+	}
+}
+
 function addItem(id){
 	var height=400;
     var width=400;
@@ -54,7 +63,7 @@ function checkSubmit(){
 		
 			
 		<div class="opt_type">
-			<c:if test="${cuser.id == model.tempInfo.handlerId }">
+			<c:if test="${cuser.id == model.tempInfo.handlerId && model.docStatus == '20'}">
 				<a onclick="checkSubmit()" >提交</a>
 			</c:if>
 			<button onclick="window.close()">关闭</button>
@@ -115,7 +124,7 @@ function checkSubmit(){
 					<input type="text" class="inputsgl itemName" name="itemName" value="{{itemName}}" />
 				</td>
 				<td align="center">
-					<input type="text" class="inputsgl itemNumber" name="itemNumber" value="{{itemNumber}}" />
+					<input type="text" class="inputsgl itemNumber" name="itemNumber" value="{{itemNumber}}" onchange="calc(this)"/>
 				</td>
 				<td align="center">
 					<input type="text" class="inputsgl itemStorage" readonly name="itemStorage" value="{{itemStorage}}" />
@@ -135,7 +144,7 @@ function checkSubmit(){
 						<input type="text" class="inputsgl itemName" readonly name="itemName" value="${detail.itemName }" />
 					</td>
 					<td align="center">
-						<input type="text" class="inputsgl itemNumber" name="itemNumber" value="${detail.itemNumber }" />
+						<input type="text" class="inputsgl itemNumber" name="itemNumber" value="${detail.itemNumber }" onchange="calc(this)"/>
 					</td>
 					<td align="center">
 						<input type="text" class="inputsgl itemStorage" readonly name="itemStorage" value="${detail.itemStorage }" />

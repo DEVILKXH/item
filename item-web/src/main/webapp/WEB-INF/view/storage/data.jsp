@@ -20,14 +20,14 @@
 	<form name="myform" action="${contextPath }/item/storage/selectStoragePage.do">
 		<table class="table table-striped table-hover table-bordered" id="search-table" >
 			<tr>
-				<td align="center"><input type="checkbox" class="selectAll"></td>
+				<td align="center"><input type="checkbox" class="selectAll" onclick="toggleSelect(this)"></td>
 				<td align="center">序号</td>
 				<td align="center">物品名称</td>
 				<td align="center">库存量</td>
 				<td align="center">是否可用</td>
 			</tr>
 			<c:forEach items="${page.list }" var="storage" varStatus="status">
-				<tr>
+				<tr class="mystorage">
 					<td align="center"><input type="checkbox" name="listed" value="${storage.id }"></td>
 					<td align="center">${status.index + 1}</td>
 					<td align="center">${storage.itemName }</td>
@@ -55,5 +55,14 @@
 			</tr>
 		</table>
 	</form>
+	<script type="text/javascript">
+		function toggleSelect(obj){
+			if(obj.checked){
+				$(".mystorage input[type=checkbox]").prop("checked","checked");
+			}else{
+				$(".mystorage input[type=checkbox]").prop("checked",null);
+			}
+		}
+	</script>
 </body>
 </html>

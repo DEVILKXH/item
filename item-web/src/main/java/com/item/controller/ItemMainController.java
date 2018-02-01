@@ -249,6 +249,8 @@ public class ItemMainController extends BaseController<BaseService<ItemMain>, It
 			tempInfo.setHandlerId(tempInfo.getNextHandlerId());
 			tempInfo.setHandlerName(tempInfo.getNextHandlerName());
 			tempInfo.setStepName(tempInfo.getNextStepName());
+			tempInfo.setNextHandlerId(null);
+			tempInfo.setNextHandlerName(null);
 			String step = tempInfo.getStep();
 			String netxStep = Integer.parseInt(step) + 1 + "";
 			tempInfo.setStep(netxStep);
@@ -263,6 +265,12 @@ public class ItemMainController extends BaseController<BaseService<ItemMain>, It
 				}
 			}
 			if(flag){
+				tempInfo.setHandlerId(null);
+				tempInfo.setHandlerName(null);
+				tempInfo.setStepName(null);
+				tempInfo.setNextHandlerId(null);
+				tempInfo.setNextHandlerName(null);
+				tempInfo.setNextStepName(null);
 				tempInfo.setDocStatus(Constant.PUBLISH);
 				main.setDocStatus(Constant.PUBLISH);
 			}
@@ -277,8 +285,13 @@ public class ItemMainController extends BaseController<BaseService<ItemMain>, It
 			}
 			MainTemplate mainTemplate = mainTemplateService.selectByPrimaryKey(main.getId());
 			mainTemplate.setTemplateInfo(JSONArray.toJSONString(tempInfo));
-			mainTemplate.setTemplateId(tempInfo.getHandlerId());
-			mainTemplate.setUserId(mainTemplate.getUserId() + Constant.PREFIX + tempInfo.getHandlerId());
+			if(!flag){
+				mainTemplate.setTemplateId(tempInfo.getHandlerId());
+				mainTemplate.setUserId(mainTemplate.getUserId() + Constant.PREFIX + tempInfo.getHandlerId());
+			}else{
+				mainTemplate.setTemplateId(" ");
+			}
+			
 			mainTemplateService.updateByPrimaryKeySelective(mainTemplate);
 			itemMainService.updateByPrimaryKeySelective(main);
 			

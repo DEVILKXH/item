@@ -66,19 +66,36 @@
 					<tr>
 						<td align="center"><input type="hidden" name="listed" value="${main.id }">${status.index + 1}</td>
 						<td align="center">${main.docSubject }</td>
-						<td align="center">${main.docStatus }</td>
+						<td align="center">
+							<c:if test="${main.docStatus == '20' }">
+								待审
+							</c:if>
+							<c:if test="${main.docStatus == '30' }">
+								发布
+							</c:if>
+						</td>
 						<td align="center">${main.docCreateName }</td>
 						<td align="center">
 							<fmt:formatDate value="${main.docCreateTime }" pattern="yyyy-MM-dd HH:mm:ss"/> 
 						</td>
-						<td align="center">${main.tempInfo.stepName }</td>
-						<td align="center">${main.tempInfo.handlerName }</td>
+						<td align="center">
+							<c:if test="${empty main.tempInfo.stepName }">
+								<span style="color: #ccc">&lt;结束节点&gt;</span>
+							</c:if>
+							${main.tempInfo.stepName }
+						</td>
+						<td align="center">
+							<c:if test="${empty main.tempInfo.stepName }">
+								<span style="color: #ccc">无</span>
+							</c:if>
+							${main.tempInfo.handlerName }
+						</td>
 						<td align="center">
 							<a class="btn btn-primary btn-xs" onclick="window.open('${contextPath}/item/main/view.do?id=${main.id }')">查看</a>
-							<c:if test="${cuser.id == main.tempInfo.handlerId }">
+							<c:if test="${cuser.id == main.tempInfo.handlerId && main.docStatus == '20'}">
 								<a class="btn btn-primary btn-xs" onclick="window.open('${contextPath}/item/main/edit.do?id=${main.id }')">编辑</a>
 							</c:if>
-							<c:if test="${cuser.id == model.docCreatorId }">
+							<c:if test="${cuser.id == model.docCreatorId && main.docStatus == '20' }">
 								<a class="btn btn-primary btn-xs" onclick="_delete('/item/main','${main.id}')">删除</a>
 							</c:if>
 						</td>

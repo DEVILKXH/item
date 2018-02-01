@@ -78,7 +78,7 @@
 								<td align="center">
 									<input type="text" class="inputsgl itemStorage" readonly name="itemStorage" value="{{itemStorage}}">
 								</td>
-								<td align="center"><input type="text" class="inputsgl itemNumber" name="itemNumber" value="1"></td>
+								<td align="center"><input type="text" class="inputsgl itemNumber" name="itemNumber" value="1" onchange="calc(this)"></td>
 								<td align="center"><img src="${resources }/images/delete.gif" style="cursor: pointer" onclick="deleteRow(this);"></td>
 							</tr>
 						</table>
@@ -91,6 +91,15 @@
 
 	<script type="text/javascript" src="${resources }/js/jquery.min.js"></script>
 	<script type="text/javascript">
+		function calc(obj){
+			var value = obj.value;
+			var storage = $(obj).closest("tr").find(".itemStorage").val();
+			if(parseInt(value) > parseInt(storage)){
+				alert("库存不足");
+				obj.value = "0";
+			}
+		}
+	
 		$(".choose").click(function(){
 			var iForm = window.frames['myFrame'].document.forms[0];
 			var $choose = $("input[name=listed]:checked",iForm);			

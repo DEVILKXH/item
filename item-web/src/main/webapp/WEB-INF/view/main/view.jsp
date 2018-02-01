@@ -46,7 +46,7 @@ function checkSubmit(){
 		</div>
 		
 		<div class="opt_type">
-			<c:if test="${cuser.id == model.tempInfo.handlerId }">
+			<c:if test="${cuser.id == model.tempInfo.handlerId && model.docStatus == '20' }">
 				<button onclick="window.open('${contextPath}/item/main/edit.do?id=${model.id }')">编辑</button>
 			</c:if>
 			<button onclick="window.close()">关闭</button>
