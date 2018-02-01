@@ -21,7 +21,11 @@
 	
     <div class="nav-right">
     	<div class="user-info">
-			<span>当前用户: ${cuser.userName }</span>
+			<span>当前用户: ${cuser.nickName }</span>
+			<a href="${contextPath }/item/sysInfo/getSysInfoPage.do" class="glyphicon glyphicon-bell sys-info" ></a>
+			<c:if test="${unReadNum != 0}">
+				<a href="${contextPath }/item/sysInfo/getSysInfoPage.do" class="sys-info read-num" aria-hidden="true" >${unReadNum }</a>
+			</c:if>
 			<a href="${contextPath}/logout.do">退出</a>
 		</div>
     

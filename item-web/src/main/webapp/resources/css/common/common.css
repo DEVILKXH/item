@@ -17,3 +17,6 @@
 #mypage { margin : 0}
 .search-table,.result-table { width: 95% !important; margin-bottom:5px !important;}
 #template{display: none;}
+.user-info .sys-info{color: red; margin-right: 0px}
+.user-info .sys-info:hover{text-decoration: none; color: red}
+.user-info .read-num{font-size: 14px;position: relative; top: -10px; left: -8px;}

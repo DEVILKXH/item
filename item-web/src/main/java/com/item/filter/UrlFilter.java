@@ -12,6 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import com.item.entity.SysInfo;
+import com.item.entity.Users;
+import com.item.service.SysInfoService;
 import com.item.utils.StringUtil;
 
 
@@ -35,6 +41,15 @@ public class UrlFilter implements Filter{
 			session.removeAttribute("url");
 			response.sendRedirect(url);
 		}else{
+			ApplicationContext applicationContext = WebApplicationContextUtils.getWebApplicationContext(session.getServletContext());
+			SysInfoService sysInfoService = (SysInfoService) applicationContext.getBean("sysInfoServiceImpl");
+			SysInfo sysInfo = new SysInfo();
+			Users user = (Users) session.getAttribute("user");
+			sysInfo.setDocCreatorId(user.getId());
+			if(StringUtil.isNull(sysInfo.getReadFlag())){
+				sysInfo.setReadFlag("0");
+			}
+			session.setAttribute("unReadNum", sysInfoService.count(sysInfo));
 			chain.doFilter(req, res);
 		}
 	}

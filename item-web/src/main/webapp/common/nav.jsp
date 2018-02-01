@@ -13,7 +13,7 @@
         <li class="nav-item <c:if test="${param.type == 'sys' }">nav-show</c:if>">
             <a href="javascript:;"><i class="my-icon nav-icon icon_1"></i><span>系统设置</span><i class="my-icon nav-more"></i></a>
             <ul>
-            	<li><a href="${contextPath }/index.do"><span>个人信息</span></a></li>
+            	<li><a href="${contextPath }/item/index.do"><span>个人信息</span></a></li>
                 <c:if test="${cuser.userType == 'admin' }">
                  	<li><a href="${contextPath }/item/user/getUserPage.do"><span>人员管理</span></a></li>
 	                <li><a href="${contextPath }/item/template/getTemplatePage.do"><span>模版设置</span></a></li>
