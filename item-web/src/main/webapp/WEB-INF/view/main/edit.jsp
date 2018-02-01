@@ -80,8 +80,9 @@ function checkSubmit(){
 				</td>
 				<td align="center" class="td_normal_title">状态</td>
 				<td class="td_normal_body">
-					<input type="radio" name="docStatus" value="20" <c:if test="${model.docStatus == '20' }">checked</c:if> />待审
-					<input type="radio" name="docStatus" value="30" <c:if test="${model.docStatus == '30' }">checked</c:if>/>发布
+					<input type="hidden" name="docStatus" value="${model.docStatus == '20' }" />
+					<c:if test="${model.docStatus == '20' }">待审</c:if>
+					<c:if test="${model.docStatus == '30' }">发布</c:if>
 				</td>
 				<td align="center" class="td_normal_title">创建者</td>
 				<td class="td_normal_body">
