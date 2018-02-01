@@ -9,21 +9,35 @@
 <title>新增</title>
 <script type="text/javascript">
 function addItem(id){
-	function selectTemplate(){
-		var height=400;
-	    var width=400;
-		window.open('/item-web/item/storage/selectStoragePage.do','sdf','height=524,width=500,top='+(screen.height-height)/2+',left='+(screen.width-width)/2+',toolbar=no,menubar=no,scrollbars=yes,resizable=yes,location=no,status=no');
-	}
+	var height=400;
+    var width=400;
+	window.open('/item-web/item/storage/storagePage.do','sdf','height=750,width=976,top=200,left=400,toolbar=no,menubar=no,scrollbars=yes,resizable=yes,location=no,status=no');
 }
+function checkSubmit(){
+	var datas = [];
+	var $tr = $(".detail");
+	for(var i = 0; i < $tr.length; i++){
+		var data = {};
+		var id = $tr.eq(i).find("input[name=detailId]").val();
+		var itemName = $tr.eq(i).find(".itemName").val();
+		var itemStorage = $tr.eq(i).find(".itemStorage").val();
+		var itemNumber = $tr.eq(i).find(".itemNumber").val();
 
-function callback(data){
+		data["id"] = id;
+		data["itemName"] = itemName;
+		data["itemStorage"] = itemStorage;
+		data["itemNumber"] = itemNumber;
+		datas.push(data);
+	}
+	$(".itemDetailData").val(JSON.stringify(datas));
+	document.myform.submit();
 	
 }
 </script>
 </head>
 <body>
 	<c:if test="${method == 'add'}">
-		<form method="POST" name="myform" action="${contextPath}/item/mian/addMain.do">
+		<form method="POST" name="myform" action="${contextPath}/item/main/addMain.do">
 	</c:if>
 	<c:if test="${method == 'edit'}">
 		<form method="POST" name="myform" action="${contextPath}/item/main/updateMain.do">
@@ -37,7 +51,7 @@ function callback(data){
 			
 		<div class="opt_type">
 			<c:if test="${cuser.id == model.tempInfo.handlerId }">
-				<button onclick="checkSubmit()">提交</button>
+				<a onclick="checkSubmit()" >提交</a>
 			</c:if>
 			<button onclick="window.close()">关闭</button>
 		</div>
@@ -49,7 +63,7 @@ function callback(data){
 			<tr>
 				<td align="center" class="td_normal_title">标题</td>
 				<td class="td_normal_body">
-					<input type="text" class="inputsgl" name="docSubject" value="${model.docSubject }"/>
+					<input type="text" class="inputsgl" name="docSubject" value="${model.docSubject }" required />
 				</td>
 				<td align="center" class="td_normal_title">状态</td>
 				<td class="td_normal_body">
@@ -73,6 +87,7 @@ function callback(data){
 				</td>
 			</tr>
 		</table>
+		<input type='hidden' name='itemDetailData' class='itemDetailData' value=''>
 		<table class="table table-bordered search-table" id="result-table">
 			<tr>
 				<td colspan="5" align="center" style="color: #178fe6">物品申请表单</td>
@@ -87,39 +102,39 @@ function callback(data){
 				</td>
 			</tr>
 			<tr id="template">
-				<td align="center">
+				<td align="center" class="hand-index">
 					{{index}}
-					<input type="hidden" name="id" value="{{id}}" />
+				</td>
+				<td align="center">
+					<input type="hidden" name="detailId"  value="{{id}}" />
 					<input type="hidden" name="docMainId" value="${detail.docMainId }" />
+					<input type="text" class="inputsgl itemName" name="itemName" value="{{itemName}}" />
 				</td>
 				<td align="center">
-					<input type="text" class="inputsgl" name="itemName" value="{{itemName}}" />
+					<input type="text" class="inputsgl itemNumber" name="itemNumber" value="{{itemNumber}}" />
 				</td>
 				<td align="center">
-					<input type="text" class="inputsgl" name="itemNumber" value="{{itemNumber}}" />
-				</td>
-				<td align="center">
-					<input type="text" class="inputsgl" readonly name="itemStorage" value="{{itemStorage}}" />
+					<input type="text" class="inputsgl itemStorage" readonly name="itemStorage" value="{{itemStorage}}" />
 				</td>
 				<td align="center">
 					<img src="${resources }/images/delete.gif" style="cursor: pointer" onclick="deleteRow(this);">
 				</td>
 			</tr>
 			<c:forEach items="${model.fdItems }" var="detail" varStatus="status">
-				<tr class="detail">
-					<td align="center">
+				<tr class="detail hanlerInfo">
+					<td align="center" class="hand-index">
 						${status.index + 1 }
-						<input type="hidden" name="id" value="${detail.id }" />
+					</td>
+					<td align="center">
+						<input type="hidden" name="detailId" value="${detail.id }" />
 						<input type="hidden" name="docMainId" value="${detail.docMainId }" />
+						<input type="text" class="inputsgl itemName" readonly name="itemName" value="${detail.itemName }" />
 					</td>
 					<td align="center">
-						<input type="text" class="inputsgl" name="itemName" value="${detail.itemName }" />
+						<input type="text" class="inputsgl itemNumber" name="itemNumber" value="${detail.itemNumber }" />
 					</td>
 					<td align="center">
-						<input type="text" class="inputsgl" name="itemNumber" value="${detail.itemNumber }" />
-					</td>
-					<td align="center">
-						<input type="text" class="inputsgl" readonly name="itemStorage" value="${detail.itemStorage }" />
+						<input type="text" class="inputsgl itemStorage" readonly name="itemStorage" value="${detail.itemStorage }" />
 					</td>
 					<td align="center">
 						<img src="${resources }/images/delete.gif" style="cursor: pointer" onclick="deleteRow(this);">
@@ -141,7 +156,7 @@ function callback(data){
 			</tr>
 			<tr>
 				<td align="center">即将流向</td>
-				<td colspan="4" >${model.tempInfo.stepName} : ${model.tempInfo.nextHandlerName }</td>
+				<td colspan="4" >${model.tempInfo.nextStepName} : ${model.tempInfo.nextHandlerName }</td>
 			</tr>
 			<tr>
 				<td align="center" class="td_normal_title">

@@ -75,7 +75,7 @@ public class TemplateController extends BaseController<BaseService<Template>, Te
 	public String add(Model model,Template template,HttpSession session){
 		Users user = userUtil.getUser(session);
 		template.setDocCreatorId(user.getId());
-		template.setDocCreatorName(user.getUserName());
+		template.setDocCreatorName(user.getNickName());
 		template.setDocCreatime(new Date());
 		model.addAttribute("model", template);
 		model.addAttribute("method", "add");

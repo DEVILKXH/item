@@ -5,18 +5,14 @@
 		<id column="ID" property="id" jdbcType="VARCHAR" />
 		<result column="DOC_SUBJECT" property="docSubject" jdbcType="VARCHAR" />
 		<result column="DOC_STATUS" property="docStatus" jdbcType="VARCHAR" />
-		<result column="DOC_CREATE_TIME" property="docCreateTime"
-			jdbcType="TIMESTAMP" />
-		<result column="DOC_CREATOR_ID" property="docCreatorId"
-			jdbcType="VARCHAR" />
-		<result column="DOC_CREATE_NAME" property="docCreateName"
-			jdbcType="VARCHAR" />
-		<result column="DOC_ALTER_TIME" property="docAlterTime"
-			jdbcType="TIMESTAMP" />
+		<result column="DOC_CREATE_TIME" property="docCreateTime" jdbcType="TIMESTAMP" />
+		<result column="DOC_CREATOR_ID" property="docCreatorId" jdbcType="VARCHAR" />
+		<result column="DOC_CREATE_NAME" property="docCreateName" jdbcType="VARCHAR" />
+		<result column="DOC_ALTER_TIME" property="docAlterTime" jdbcType="TIMESTAMP" />
 		<result column="DOC_ALTER_ID" property="docAlterId" jdbcType="VARCHAR" />
 		<result column="DOC_REMARK" property="docRemark" jdbcType="VARCHAR" />
-		<result column="DOC_ALTER_NAME" property="docAlterName"
-			jdbcType="VARCHAR" />
+		<result column="DOC_ALTER_NAME" property="docAlterName" jdbcType="VARCHAR" />
+		<result column="TEMPLATE_INFO" property="tempInfoJSON" jdbcType="VARCHAR" />
 	</resultMap>
 	<sql id="Example_Where_Clause">
 		<where>
@@ -89,81 +85,179 @@
 	
 	<select id="getMainPage" resultMap="BaseResultMap">
 		select
-		<include refid="Base_Column_List" />
-		from ITEM_MAIN
+		a.ID, a.DOC_SUBJECT, a.DOC_STATUS, a.DOC_CREATE_TIME, a.DOC_CREATOR_ID,
+		a.DOC_CREATE_NAME, a.DOC_ALTER_TIME,
+		a.DOC_ALTER_ID, DOC_REMARK, a.DOC_ALTER_NAME,b.TEMPLATE_INFO
+		from ITEM_MAIN a
+		left join MAIN_TEMPLATE b on a.id = b.id
 		<trim prefix="where" prefixOverrides="and|or">
 			<if test="main.id != null and main.id != ''">
-				and ID = #{main.id}
+				and a.ID = #{main.id}
 			</if>
 			<if test="main.docSubject != null and main.docSubject != ''">
-				and DOC_SUBJECT = #{main.docSubject}
+				and a.DOC_SUBJECT = #{main.docSubject}
 			</if>
 			<if test="main.docStatus != null and main.docStatus != ''">
-				and DOC_STATUS = #{main.docStatus}
+				and a.DOC_STATUS = #{main.docStatus}
 			</if>
 			<if test="main.docCreateTime != null">
-				and DOC_CREATE_TIME = #{main.docCreateTime}
+				and a.DOC_CREATE_TIME = #{main.docCreateTime}
 			</if>
 			<if test="main.docCreatorId != null and main.docCreatorId != ''">
-				and DOC_CREATOR_ID = #{main.docCreatorId}
+				and a.DOC_CREATOR_ID = #{main.docCreatorId}
 			</if>
 			<if test="main.docCreateName != null and main.docCreateName != ''">
-				and DOC_CREATE_NAME = #{main.docCreateName}
+				and a.DOC_CREATE_NAME = #{main.docCreateName}
 			</if>
 			<if test="main.docAlterTime != null">
-				and DOC_ALTER_TIME = #{main.docAlterTime}
+				and a.DOC_ALTER_TIME = #{main.docAlterTime}
 			</if>
 			<if test="main.docAlterId != null and main.docAlterId != ''">
-				and DOC_ALTER_ID = #{main.docAlterId}
+				and a.DOC_ALTER_ID = #{main.docAlterId}
 			</if>
 			<if test="main.docRemark != null and main.docRemark != ''">
-				and DOC_REMARK = #{main.docRemark}
+				and a.DOC_REMARK = #{main.docRemark}
 			</if>
 			<if test="main.docAlterName != null and main.docAlterName != ''">
-				and DOC_ALTER_NAME = #{main.docAlterName}
+				and a.DOC_ALTER_NAME = #{main.docAlterName}
 			</if>
 		</trim>
-		order by DOC_CREATE_TIME
+		order by a.DOC_CREATE_TIME
 		limit #{page.start},#{page.end}
 	</select>
 	
 	<select id="count" resultType="java.lang.Integer" parameterType="com.item.entity.ItemMain">
 		select
 		count(0)
-		from ITEM_MAIN
+		from ITEM_MAIN a
+		left join MAIN_TEMPLATE b on a.id = b.id
 		<trim prefix="where" prefixOverrides="and|or">
 			<if test="id != null and id != ''">
-				and ID = #{id}
+				and a.ID = #{id}
 			</if>
 			<if test="docSubject != null and docSubject != ''">
-				and DOC_SUBJECT = #{docSubject}
+				and a.DOC_SUBJECT = #{docSubject}
 			</if>
 			<if test="docStatus != null and docStatus != ''">
-				and DOC_STATUS = #{docStatus}
+				and a.DOC_STATUS = #{docStatus}
 			</if>
 			<if test="docCreateTime != null">
-				and DOC_CREATE_TIME = #{docCreateTime}
+				and a.DOC_CREATE_TIME = #{docCreateTime}
 			</if>
 			<if test="docCreatorId != null and docCreatorId != ''">
-				and DOC_CREATOR_ID = #{docCreatorId}
+				and a.DOC_CREATOR_ID = #{docCreatorId}
 			</if>
 			<if test="docCreateName != null and docCreateName != ''">
-				and DOC_CREATE_NAME = #{docCreateName}
+				and a.DOC_CREATE_NAME = #{docCreateName}
 			</if>
 			<if test="docAlterTime != null">
-				and DOC_ALTER_TIME = #{docAlterTime}
+				and a.DOC_ALTER_TIME = #{docAlterTime}
 			</if>
 			<if test="docAlterId != null and docAlterId != ''">
-				and DOC_ALTER_ID = #{docAlterId}
+				and a.DOC_ALTER_ID = #{docAlterId}
 			</if>
 			<if test="docRemark != null and docRemark != ''">
-				and DOC_REMARK = #{docRemark}
+				and a.DOC_REMARK = #{docRemark}
 			</if>
 			<if test="docAlterName != null and docAlterName != ''">
-				and DOC_ALTER_NAME = #{docAlterName}
+				and a.DOC_ALTER_NAME = #{docAlterName}
 			</if>
 		</trim>
 	</select>
+	
+	
+	
+	
+	<select id="getMyDocMainPage" resultMap="BaseResultMap">
+		select
+		a.ID, a.DOC_SUBJECT, a.DOC_STATUS, a.DOC_CREATE_TIME, a.DOC_CREATOR_ID,
+		a.DOC_CREATE_NAME, a.DOC_ALTER_TIME,
+		a.DOC_ALTER_ID, DOC_REMARK, a.DOC_ALTER_NAME,b.TEMPLATE_INFO
+		from ITEM_MAIN a
+		left join MAIN_TEMPLATE b on a.id = b.id
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="list != null">
+				and a.ID in 
+				<foreach collection="list" item="temp" separator="," open="(" close=")" index="index">
+					#{temp.id}
+				</foreach>
+			</if>
+			<if test="main.docSubject != null and main.docSubject != ''">
+				and a.DOC_SUBJECT = #{main.docSubject}
+			</if>
+			<if test="main.docStatus != null and main.docStatus != ''">
+				and a.DOC_STATUS = #{main.docStatus}
+			</if>
+			<if test="main.docCreateTime != null">
+				and a.DOC_CREATE_TIME = #{main.docCreateTime}
+			</if>
+			<if test="main.docCreatorId != null and main.docCreatorId != ''">
+				and a.DOC_CREATOR_ID = #{main.docCreatorId}
+			</if>
+			<if test="main.docCreateName != null and main.docCreateName != ''">
+				and a.DOC_CREATE_NAME = #{main.docCreateName}
+			</if>
+			<if test="main.docAlterTime != null">
+				and a.DOC_ALTER_TIME = #{main.docAlterTime}
+			</if>
+			<if test="main.docAlterId != null and main.docAlterId != ''">
+				and a.DOC_ALTER_ID = #{main.docAlterId}
+			</if>
+			<if test="main.docRemark != null and main.docRemark != ''">
+				and a.DOC_REMARK = #{main.docRemark}
+			</if>
+			<if test="main.docAlterName != null and main.docAlterName != ''">
+				and a.DOC_ALTER_NAME = #{main.docAlterName}
+			</if>
+		</trim>
+		order by a.DOC_CREATE_TIME
+		limit #{page.start},#{page.end}
+	</select>
+	
+	<select id="myDocCount" resultType="java.lang.Integer" parameterType="com.item.entity.ItemMain">
+		select
+		count(0)
+		from ITEM_MAIN a
+		left join MAIN_TEMPLATE b on a.id = b.id
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="list != null">
+				and a.ID in 
+				<foreach collection="list" item="temp" separator="," open="(" close=")" index="index">
+					#{temp.id}
+				</foreach>
+			</if>
+			<if test="main.docSubject != null and main.docSubject != ''">
+				and a.DOC_SUBJECT = #{main.docSubject}
+			</if>
+			<if test="main.docStatus != null and main.docStatus != ''">
+				and a.DOC_STATUS = #{main.docStatus}
+			</if>
+			<if test="main.docCreateTime != null">
+				and a.DOC_CREATE_TIME = #{main.docCreateTime}
+			</if>
+			<if test="main.docCreatorId != null and main.docCreatorId != ''">
+				and a.DOC_CREATOR_ID = #{main.docCreatorId}
+			</if>
+			<if test="main.docCreateName != null and main.docCreateName != ''">
+				and a.DOC_CREATE_NAME = #{main.docCreateName}
+			</if>
+			<if test="main.docAlterTime != null">
+				and a.DOC_ALTER_TIME = #{main.docAlterTime}
+			</if>
+			<if test="main.docAlterId != null and main.docAlterId != ''">
+				and a.DOC_ALTER_ID = #{main.docAlterId}
+			</if>
+			<if test="main.docRemark != null and main.docRemark != ''">
+				and a.DOC_REMARK = #{main.docRemark}
+			</if>
+			<if test="main.docAlterName != null and main.docAlterName != ''">
+				and a.DOC_ALTER_NAME = #{main.docAlterName}
+			</if>
+		</trim>
+	</select>
+	
+	
+	
 	
 	<select id="selectByExample" resultMap="BaseResultMap"
 		parameterType="com.item.base.entity.Example">

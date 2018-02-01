@@ -55,13 +55,16 @@ public class ItemStorageController extends BaseController<BaseService<ItemStorag
 		return "storage/list";
 	}
 	
+	@RequestMapping(value = "/storagePage.do")
+	private String storagePage(ItemStorage storage, Page<ItemStorage> page,Model model){
+		return "storage/dialogList";
+	}
+	
 	@RequestMapping(value = "/selectStoragePage.do")
 	private String selectStoragePage(ItemStorage storage, Page<ItemStorage> page,Model model){
 		storage.setItemStaus("1");
 		model.addAttribute("page", storageService.getStoragePage(storage, page));
 		model.addAttribute("model", storage);
-		return "storage/dialogList";
+		return "storage/data";
 	}
-	
-	
 }

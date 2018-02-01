@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.item.entity.ItemMain;
+import com.item.entity.MainTemplate;
 import com.item.inner.base.mapper.BaseMapper;
 import com.item.inner.base.serviceimpl.BaseServiceImpl;
 import com.item.inner.dto.Page;
@@ -27,9 +28,9 @@ public class ItemMainServiceImpl extends BaseServiceImpl<ItemMain, BaseMapper<It
 	@Override
 	public Page<ItemMain> getMainPage(ItemMain main, Page<ItemMain> page) {
 		page.setStartAndEnd();
-		List<ItemMain> users = itemMainMapper.getMainPage(main, page);
+		List<ItemMain> mains = itemMainMapper.getMainPage(main, page);
 		int count = itemMainMapper.count(main);
-		page.setList(users);
+		page.setList(mains);
 		page.setCount(count);
 		page.setPageResultCount(count);
 		PageUtil.getInterval(page);
@@ -39,6 +40,23 @@ public class ItemMainServiceImpl extends BaseServiceImpl<ItemMain, BaseMapper<It
 	@Override
 	public int count(ItemMain main) {
 		return itemMainMapper.count(main);
+	}
+
+	@Override
+	public Page<ItemMain> getMyDocMainPage(ItemMain main, Page<ItemMain> page,List<MainTemplate> temp) {
+		page.setStartAndEnd();
+		List<ItemMain> mains = itemMainMapper.getMyDocMainPage(main, page,temp);
+		int count = itemMainMapper.count(main);
+		page.setList(mains);
+		page.setCount(count);
+		page.setPageResultCount(count);
+		PageUtil.getInterval(page);
+		return page;
+	}
+
+	@Override
+	public int myDocCount(ItemMain main,List<MainTemplate> temp) {
+		return itemMainMapper.myDocCount(main,temp);
 	}
 
 }

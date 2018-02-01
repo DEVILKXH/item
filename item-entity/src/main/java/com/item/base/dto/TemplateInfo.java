@@ -20,8 +20,11 @@ public class TemplateInfo {
 	private String nextHandlerName;
 
 	private String step;
-	
+
 	private String stepName;
+	
+
+	private String nextStepName;
 	
 	private List<TemplateStep> tn;
 
@@ -87,6 +90,14 @@ public class TemplateInfo {
 
 	public void setStepName(String stepName) {
 		this.stepName = stepName;
+	}
+
+	public String getNextStepName() {
+		return nextStepName;
+	}
+
+	public void setNextStepName(String nextStepName) {
+		this.nextStepName = nextStepName;
 	}
 	
 }

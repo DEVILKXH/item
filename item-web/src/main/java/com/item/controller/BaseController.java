@@ -138,7 +138,7 @@ public class BaseController<S extends BaseService<E>, E> {
 	}
 	
 	@RequestMapping(value = "/delete.do")
-	public String delete(E record){
+	public String delete(E record,Model model){
 		BaseEntity baseEntity = (BaseEntity) record;
 		int flag = service.deleteByPrimaryKey(baseEntity.getId());
 		if(flag == 0){

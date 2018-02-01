@@ -24,6 +24,8 @@
             <a href="javascript:;"><i class="my-icon nav-icon icon_2"></i><span>内容管理</span><i class="my-icon nav-more"></i></a>
             <ul>
                 <li><a href="${contextPath }/item/main/getMainPage.do?myDoc=self"><span>我的申请</span></a></li>
+                <li><a href="${contextPath }/item/main/getMyDocMainPage.do?myDoc=approl"><span>待我审的</span></a></li>
+                <li><a href="${contextPath }/item/main/getMyDocMainPage.do?myDoc=approved"><span>我已审的</span></a></li>
                 <c:if test="${cuser.userType == 'admin' }">
                 	<li><a href="${contextPath }/item/main/getMainPage.do"><span>所有申请</span></a></li>
                 </c:if>

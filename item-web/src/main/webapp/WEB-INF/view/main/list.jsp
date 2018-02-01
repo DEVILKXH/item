@@ -40,9 +40,9 @@
 						<input type="radio" name="docStatus" value="20" <c:if test="${model.docStatus == '20' }">checked</c:if> />待审
 						<input type="radio" name="docStatus" value="30" <c:if test="${model.docStatus == '30' }">checked</c:if>/>发布
 					</td>
-					<td align="center" class="td_normal_title">状态</td>
+					<td align="center" class="td_normal_title">申请者</td>
 					<td class="td_normal_body">
-						<input type="text" class="inputsgl" readonly value="${model.docCreateName }" name="docCreatorName" placeholder="请选择申请人" onclick="selectUser('docCreateName','docCreatorId')"/>
+						<input type="text" class="inputsgl" readonly value="${model.docCreateName }" name="docCreatorName" placeholder="请选择申请人" onclick="selectUser('docCreatorName','docCreatorId')"/>
 						<input type="hidden"  name="docCreatorId" value="${model.docCreatorId }"/>
 					</td>
 				</tr>
@@ -67,12 +67,16 @@
 						<td align="center">
 							<fmt:formatDate value="${main.docCreateTime }" pattern="yyyy-MM-dd HH:mm:ss"/> 
 						</td>
-						<td align="center">&nbsp;</td>
-						<td align="center">&nbsp;</td>
+						<td align="center">${main.tempInfo.stepName }</td>
+						<td align="center">${main.tempInfo.handlerName }</td>
 						<td align="center">
-							<a class="btn btn-primary btn-xs" onclick="window.open('${contextPath}/item/main/view.do?id=${model.id }')">查看</a>
-							<a class="btn btn-primary btn-xs" onclick="window.open('${contextPath}/item/main/edit.do?id=${model.id }')">编辑</a>
-							<a class="btn btn-primary btn-xs" onclick="_delete('/item/main','${model.id}')">删除</a>
+							<a class="btn btn-primary btn-xs" onclick="window.open('${contextPath}/item/main/view.do?id=${main.id }')">查看</a>
+							<c:if test="${cuser.id == main.tempInfo.handlerId }">
+								<a class="btn btn-primary btn-xs" onclick="window.open('${contextPath}/item/main/edit.do?id=${main.id }')">编辑</a>
+							</c:if>
+							<c:if test="${cuser.id == model.docCreatorId }">
+								<a class="btn btn-primary btn-xs" onclick="_delete('/item/main','${main.id}')">删除</a>
+							</c:if>
 						</td>
 					</tr>
 				</c:forEach>

@@ -7,9 +7,7 @@ function _delete(path,id){
 		url: context + path + "/delete.do?id="+id,
 		type: 'GET',
 		success: function(ajax){
-			if(ajax.status == "200"){
-				window.location.reload();
-			}
+			window.location.reload();
 		}
 	});
 }

@@ -21,13 +21,17 @@ public class ExampleUtil {
 		try {
 			Criteria criteria = example.createCriteria();
 			Class<?> c = record.getClass();
-			Field []fields = c.getFields();
+			Field []fields = c.getDeclaredFields();
 			for(Field field : fields){
 				if(field.isAnnotationPresent(com.item.base.entity.annotation.Example.class)){
 					Method m = getGetMethod(field.getName(),c);
 					Object obj = m.invoke(record);
+					
+					if(null == obj){
+						continue;
+					}
 					if(obj.getClass() == String.class && StringUtil.isNotNull((String) obj)){
-						criteria.andEqualTo(field.getName(),obj);
+						criteria.andEqualTo(getParam(field.getName()),obj);
 					}else if(null != obj.getClass()){
 						criteria.andEqualTo(field.getName(),obj);
 					}
@@ -37,6 +41,18 @@ public class ExampleUtil {
 			e.printStackTrace();
 		}
 		return example;
+	}
+
+	private String getParam(String name) {
+		String s = "";
+		for(int i = 0; i < name.length(); i++){
+			char c = name.charAt(i);
+			if(c < 97){
+				s += "_";
+			}
+			s += c;
+		}
+		return s;
 	}
 
 	private Method getGetMethod(String name,Class<?> c) {

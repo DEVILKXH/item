@@ -95,8 +95,8 @@
 			<if test="storage.itemStorage != null and storage.itemStorage != ''">
 				and ITEM_STORAGE = #{storage.itemStorage}
 			</if>
-			<if test="storage.itemStaus != null and storage.itemStatus != ''">
-				and ITEM_STAUS = #{storage.itemStatus}
+			<if test="storage.itemStaus != null and storage.itemStaus != ''">
+				and ITEM_STAUS = #{storage.itemStaus}
 			</if>
 			<if test="storage.docCreateTime != null">
 				and DOC_CREATE_TIME = #{storage.docCreateTime}
@@ -127,8 +127,8 @@
 			<if test="itemStorage != null and itemStorage != ''">
 				and ITEM_STORAGE = #{itemStorage}
 			</if>
-			<if test="itemStaus != null and itemStatus != ''">
-				and ITEM_STAUS = #{itemStatus}
+			<if test="itemStaus != null and itemStaus != ''">
+				and ITEM_STAUS = #{itemStaus}
 			</if>
 			<if test="docCreateTime != null">
 				and DOC_CREATE_TIME = #{docCreateTime}

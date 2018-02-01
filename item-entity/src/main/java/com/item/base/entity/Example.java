@@ -150,7 +150,7 @@ public class Example {
             return (Criteria) this;
         }
 
-        public Criteria andIdLike(String param, Object value) {
+        public Criteria andLike(String param, Object value) {
             addCriterion(param + " like", value, getParam(param));
             return (Criteria) this;
         }

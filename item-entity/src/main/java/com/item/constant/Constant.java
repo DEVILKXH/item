@@ -16,4 +16,8 @@ public class Constant {
 	
 	public final static String EXMIME = "20";
 
+	public final static String PREFIX = "l:h";
+	
+	public final static String SUBFIX = "h:l";
+
 }
